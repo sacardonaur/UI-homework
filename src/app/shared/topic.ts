@@ -1,3 +1,4 @@
+import { TopicRequest  } from './topicRequest';
 export class Topic {
     name: string;
     description: string;
@@ -6,5 +7,15 @@ export class Topic {
     openedAt: string;
     teachers_count: number;
     students_count: number;
-    constructor(){}
+    constructor(topic?: TopicRequest){
+        if(topic){
+            this.name = topic.name;
+            this.description = topic.description;
+            this.createdAt = topic.createdAt;
+            this.expiredAt = topic.expiredAt;
+            this.openedAt = topic.openedAt;
+            this.teachers_count = topic.teachers_count;
+            this.students_count = topic.students_count;
+        }
+    }
 }

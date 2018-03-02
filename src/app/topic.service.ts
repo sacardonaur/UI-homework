@@ -15,10 +15,7 @@ export class TopicService {
   constructor(private http: HttpClient) { }
 
   getAllTopics(){
-    return this.http.get("http://localhost:8080/topics")
-               .subscribe(data => {
-                                    console.log(data);
-                                 });  
+    return this.http.get<TopicRequest[]>("http://localhost:8080/topics");  
   }
 
   private handleError(error: HttpErrorResponse) {
