@@ -5,6 +5,10 @@ import { TopicService } from '../topic.service';
 import { TopicRequest } from '../shared/topicRequest';
 import { Topic } from '../shared/topic';
 
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { MenuItem } from 'primeng/api';
+import { Window } from '../shared/windows';
+
 @Component({
   selector: 'app-topic',
   templateUrl: './topic.component.html',
@@ -12,10 +16,11 @@ import { Topic } from '../shared/topic';
 })
 export class TopicComponent implements OnInit {
 
+  newTopicForm: FormGroup;
   tRequest: TopicRequest[];
-  localTopics : Array<Topic>;
-  constructor(private service : TopicService) {
-    this.localTopics = new Array<Topic>();
+  localTopics = [{name:"Nicolas", description:"Description"}];
+
+  constructor(private fBuilder: FormBuilder, private service : TopicService) {
   }
 
   ngOnInit() {
@@ -27,10 +32,17 @@ export class TopicComponent implements OnInit {
   }
 
   listTopics(data){
+    this.newTopicForm = this.fBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+    });
     this.tRequest = { ...data };
     for (let value of Object.values(this.tRequest)){
-        this.localTopics.push(value);
+        this.localTopics.push({name:value.name, description:value.description});
     }
+    console.log(this.localTopics);
   }
+
+
 
 }
