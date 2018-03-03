@@ -26,6 +26,7 @@ public class CollaboratorController {
         return collaboratorService.getCollaboratorById(id);
     }
 
+
     @PutMapping
     public Collaborator updateCollaborator(Collaborator collaborator){
         return collaboratorService.updateCollaborator(collaborator);
