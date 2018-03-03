@@ -1,7 +1,7 @@
-package com.psl.integrador.model;
+package com.praxis.topics.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.psl.integrador.model.enums.Expertise;
+import com.praxis.topics.model.enums.Expertise;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 

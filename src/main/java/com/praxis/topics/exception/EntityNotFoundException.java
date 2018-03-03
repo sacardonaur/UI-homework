@@ -1,4 +1,4 @@
-package com.psl.integrador.exception;
+package com.praxis.topics.exception;
 
 public class EntityNotFoundException extends Exception {
 

@@ -1,4 +1,4 @@
-package com.psl.integrador.exception;
+package com.praxis.topics.exception;
 
 import org.springframework.http.HttpStatus;
 

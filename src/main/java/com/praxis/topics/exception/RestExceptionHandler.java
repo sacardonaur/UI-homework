@@ -1,4 +1,4 @@
-package com.psl.integrador.exception;
+package com.praxis.topics.exception;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

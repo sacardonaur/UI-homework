@@ -1,35 +1,28 @@
 package com.praxis.topics.controller;
 
-import com.praxis.topics.entity.Detail;
-import com.praxis.topics.service.DetailServiceImp;
+
+import com.praxis.topics.model.Detail;
+import com.praxis.topics.service.DetailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/collaborators/topics")
+@RequestMapping("/details")
 public class DetailController {
+    private final DetailService detailService;
 
     @Autowired
-    @Qualifier("detailServiceImp")
-    private DetailServiceImp detailServiceImp;
-
+    public DetailController(DetailService detailService) {
+        this.detailService = detailService;
+    }
 
     @GetMapping
     public List<Detail> getAllDetails(){
-        return detailServiceImp.getAllDetails();
+        return detailService.getAllDetails();
     }
-
-    @PostMapping
-    public void addDetail(@RequestBody Detail detail){
-        detailServiceImp.addDetail(detail);
-    }
-    @DeleteMapping("/{id}")
-    public void deleteDetail(@PathVariable("id") String id){
-        detailServiceImp.deleteDetail(id);
-    }
-
 
 }

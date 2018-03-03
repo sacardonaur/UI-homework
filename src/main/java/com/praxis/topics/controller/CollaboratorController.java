@@ -1,7 +1,7 @@
-package com.psl.integrador.controller;
+package com.praxis.topics.controller;
 
-import com.psl.integrador.model.Collaborator;
-import com.psl.integrador.service.CollaboratorService;
+import com.praxis.topics.model.Collaborator;
+import com.praxis.topics.service.CollaboratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,6 @@ public class CollaboratorController {
     public Collaborator getCollaboratorById(@PathVariable("id") String id){
         return collaboratorService.getCollaboratorById(id);
     }
-
 
     @PutMapping
     public Collaborator updateCollaborator(Collaborator collaborator){

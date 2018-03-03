@@ -1,8 +1,8 @@
-package com.psl.integrador.service;
+package com.praxis.topics.service;
 
-import com.psl.integrador.exception.EntityNotFoundException;
-import com.psl.integrador.model.Topic;
-import com.psl.integrador.repository.TopicRepository;
+import com.praxis.topics.exception.EntityNotFoundException;
+import com.praxis.topics.model.Topic;
+import com.praxis.topics.repository.TopicRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.psl.integrador.model.enums.Status.opened;
-import static com.psl.integrador.model.enums.Status.toOpen;
-import static com.psl.integrador.model.enums.Status.closed;
+import static com.praxis.topics.model.enums.Status.opened;
+import static com.praxis.topics.model.enums.Status.toOpen;
+import static com.praxis.topics.model.enums.Status.closed;
 import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 import static org.junit.Assert.*;
 

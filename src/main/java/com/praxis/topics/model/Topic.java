@@ -1,12 +1,11 @@
-package com.psl.integrador.model;
+package com.praxis.topics.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.psl.integrador.model.enums.Status;
+import com.praxis.topics.model.enums.Status;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.Generated;
 import java.time.LocalDateTime;
 
 @Document(collection = "Topic")

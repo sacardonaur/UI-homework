@@ -1,12 +1,13 @@
 package com.praxis.topics.repository;
 
-
-import com.praxis.topics.entity.Collaborator;
+import com.praxis.topics.model.Collaborator;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 
-@Repository("CollaboratorRepository")
+@Repository("Collaborator")
 public interface CollaboratorRepository extends MongoRepository<Collaborator, String> {
-    Collaborator findById(String id);
+    List<Collaborator> findAll();
+    Collaborator findCollaboratorById(String id);
 }

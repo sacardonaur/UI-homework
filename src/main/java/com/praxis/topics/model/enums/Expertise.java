@@ -1,4 +1,4 @@
-package com.psl.integrador.model.enums;
+package com.praxis.topics.model.enums;
 
 public enum Expertise {
     beginner,

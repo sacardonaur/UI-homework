@@ -1,4 +1,4 @@
-package com.psl.integrador.model;
+package com.praxis.topics.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.NotEmpty;
