@@ -16,6 +16,9 @@ export class Topic {
             this.openedAt = topic.openedAt;
             this.teachers_count = topic.teachers_count;
             this.students_count = topic.students_count;
+        }else{
+            this.teachers_count = 0;
+            this.students_count = 0;
         }
     }
 }

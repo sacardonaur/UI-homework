@@ -10,16 +10,6 @@ import { routing  } from './routes.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TopicService } from './topic.service'; 
 
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { RatingModule } from 'primeng/rating';
-import { DragDropModule } from 'primeng/dragdrop';
-import { DataTableModule } from 'primeng/datatable';
-import { CardModule } from 'primeng/card';
-import { TabMenuModule } from 'primeng/tabmenu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -36,16 +26,6 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    AutoCompleteModule,
-    RatingModule,
-    ButtonModule,
-    DialogModule,
-    InputTextModule,
-    InputTextareaModule,
-    DragDropModule,
-    DataTableModule,
-    CardModule,
-    TabMenuModule
 
    ],
   providers: [TopicService],
