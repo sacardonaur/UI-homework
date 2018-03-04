@@ -25,12 +25,12 @@ export class TopicService {
   constructor(private http: HttpClient) { }
 
   getAllTopics(){
-    return this.http.get<TopicRequest[]>("http://localhost:8080/topics");  
+    return this.http.get<TopicRequest[]>("http://0.0.0.0:8080/topics");  
   }
 
   getTopic(name:string){
     console.log("http://localhost:8080/topics/findByName/" + name);
-    return this.http.get<TopicRequest[]>("http://localhost:8080/topics/findByName/" + name);
+    return this.http.get<TopicRequest[]>("http://0.0.0.0:8080/topics/findByName/" + name);
 
   }
 
@@ -42,13 +42,13 @@ export class TopicService {
 
   createTopic(topic: Topic){
          console.log(topic);
-     return this.http.post<Topic>("http://localhost:8080/topics", JSON.stringify(topic), TopicService.httpOptions);
+     return this.http.post<Topic>("http://0.0.0.0:8080/topics", JSON.stringify(topic), TopicService.httpOptions);
 
   }
 
   update(topic: Topic){
-     console.log(topic);
-     return this.http.put<Topic>("http://localhost:8080/topics", JSON.stringify(topic), TopicService.httpOptions);
+     console.log("http://localhost:8080/topics");
+     return this.http.put<Topic>("http://0.0.0.0:8080/topics", JSON.stringify(topic), TopicService.httpOptions);
 
   }
 
