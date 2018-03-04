@@ -5,6 +5,6 @@ export interface TopicRequest {
     createdAt: string;
     expiredAt: string;
     openedAt: string;
-    teachers_count: number;
-    students_count: number;
+    teachers: number;
+    students: number;
 }

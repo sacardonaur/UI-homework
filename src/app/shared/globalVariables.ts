@@ -1,6 +1,16 @@
 export class GlobalVariables {
-    static allTopics : string  = "/topics";
-    static apiLocation : string = "https://localhost:8080";
+    static apiLocation : string = "http://localhost:8080";
+    
+    //------------------Collaborator---------------//
+    static collaborators = "/collaborators";
+    static details = "/details";
+    //------------------Collaborator---------------//
+
+    //-------------------Topic---------------------//
+    static findByName : string = "/findByName/";
+    static topics : string  = "/topics";
+    //-------------------Topic---------------------//
+
     constructor(){}
 }
 

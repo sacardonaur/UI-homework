@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TopicComponent } from './topic.component';
+import { CollectiveLearningComponent } from './collectiveLearning.component';
 
-describe('TopicComponent', () => {
-  let component: TopicComponent;
-  let fixture: ComponentFixture<TopicComponent>;
+describe('CollectiveLearningComponent', () => {
+  let component: CollectiveLearningComponent;
+  let fixture: ComponentFixture<CollectiveLearningComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TopicComponent ]
+      declarations: [ CollectiveLearningComponent ]
     })
     .compileComponents();
   }));

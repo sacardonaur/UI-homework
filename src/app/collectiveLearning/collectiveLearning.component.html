@@ -89,4 +89,34 @@ table, th, td {
         </form>
 </div>
 
-<h1>Known Topics</h1>
+<h1>Topics that a Collaborator wants to learn</h1>
+
+<h3>Add a topic that I want either teach or learn</h3>
+    <div class="container">
+        <form (ngSubmit)="addDetail()" #topicForm="ngForm">
+          <div *ngIf="isDataAvailable">
+            <label for="collaboratorName">Collaborator's Name</label> 
+            <p id="collaboratorName">{{collaborators[0].name}}</p>
+          </div>
+          <div class="form-group">
+            <label for="topicName">Topic Name</label>
+            <input type="text" class="form-control" id="topicName"
+                   [(ngModel)]="this.detail.topic" name="topicName"
+                   #name="ngModel">
+          </div>
+     
+          <div class="form-group">
+            <label for="expertise">Expertise</label>
+           <select id="expertise" name="expertise" class="form-control"
+                    [(ngModel)]="this.detail.expertise">
+                    <option value="1">1</option>                    
+                    <option value="2">2</option>                    
+                    <option value="3">3</option>                    
+            </select>
+          </div>
+     
+          <button type="submit" class="btn btn-success">Create</button>
+        </form>
+</div>
+
+
