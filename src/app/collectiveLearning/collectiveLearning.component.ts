@@ -21,58 +21,91 @@ export class CollectiveLearningComponent implements OnInit {
   tRequest: TopicRequest[];
   localTopics = [];
   topic:Topic;
-  collaborators: Collaborator[]; //Demo only!!!!
   detail: DetailFormTemplate;
   isDataAvailable:boolean;
+
+  collaboratorDemo = {name:"Luis", topicsToTeach:[]}; //Demo only!!!!
+  searchTopicsArray = []; //Demo Only!!!
+
 
   constructor(private service : CollectiveLearningService) {
     this.topic = new Topic();
     this.detail = new DetailFormTemplate();
-    this.isDataAvailable = false;
+    //this.isDataAvailable = false;
   }
 
   ngOnInit() {
+    /*
     this.getAllTopics(); 
     this.getAllCollaborators();
-  }
-
-
-  //---------------------------Collaborator-----------------------------------//
-
-  fillCollaborators(data: Collaborator[]){
-    this.collaborators = { ...data };
+    */
+    //Mock
+    this.collaboratorDemo.topicsToTeach = []; //demo
+    this.collaboratorDemo.name = "Luis";
     this.isDataAvailable = true;
-    //this.getCollaborator("yes");
-    //this.getAllDetails(this.collaborators[0].id);
   }
 
-  getAllCollaborators(){
-    return this.service.getAllCollaborators().subscribe(data => this.fillCollaborators(data));
-  }
 
-  getCollaborator(collaboratorId:string){
-    this.service.getCollaborator(this.collaborators[0].id).subscribe(data => console.log(data));
-  }
-
-  getAllDetails(collaboratorId:string){
-    this.service.getAllDetails(collaboratorId).subscribe(data => console.log(data));
-  }
-
+  //--------------------------mock Collaborator-------------------------------//
   addDetail(){
-    let detail = new Detail();
-    for(let value of Object.values(this.tRequest)){
-        if(value.name == this.detail.topic){
-            detail.topic = new Topic(value);
+    let detailA = new Detail();
+    detailA.topic = new Topic();
+    let cnt = 0;
+    for(let value of this.localTopics){
+        if(this.detail.topic == value.name){
+            detailA.topic.name = value.name;
+            detailA.topic.description = value.description;
+            detailA.expertise = this.detail.expertise;
+            break;
         }
-    } 
-    detail.expertise = this.detail.expertise;
-    console.log(detail);
-    detail.topic.createdAt = null;
-    this.service.addDetail(this.collaborators[0].id, detail).subscribe(data => console.log(data));
+        cnt = cnt + 1;
+    }
+    this.collaboratorDemo.topicsToTeach.push(detailA);
+  }
+    
+
+  //---------------------------Topic Related Mock----------------------------------//  
+
+
+  postTopic(){
+    this.localTopics.push({name:this.topic.name, description:this.topic.description});
   }
 
-  //---------------------------Collaborator-----------------------------------//
+  deleteTopic(){
+    let cnt = 0;
+    for(let value of this.localTopics){
+        if(this.topic.name == value.name){
+            this.localTopics.splice(cnt, 1);
+            break;
+        }
+        cnt = cnt + 1;
+    }
+  }
 
+  searchTopic(){
+    this.searchTopicsArray = [];
+    for(let value of this.localTopics){
+        if(value.name.indexOf(this.topic.name) != -1){
+            this.searchTopicsArray.push({name:value.name, description:value.description});
+        }
+    }
+  }
+
+  updateTopic(){
+    let cnt = 0;
+    for(let value of this.localTopics){
+        if(this.topic.name == value.name){
+            this.localTopics[cnt] = {name:this.topic.name, description:this.topic.description};
+            break;
+        }
+        cnt = cnt + 1;
+    }
+  }
+  //-----------------------------------Topic Related---------------------------------------------//
+
+  
+  
+/* BackEnd 
   //---------------------------Topic Related----------------------------------//  
   getAllTopics(){
     return this.service.getAllTopics().subscribe(data => this.listTopics(data));
@@ -115,5 +148,44 @@ export class CollectiveLearningComponent implements OnInit {
   }
 
   //-----------------------------------Topic Related---------------------------------------------//
+
+}
+*/
+
+  //---------------------------Collaborator-----------------------------------//
+/*
+  fillCollaborators(data: Collaborator[]){
+    this.collaborators = { ...data };
+    this.isDataAvailable = true;
+    //this.getCollaborator("yes");
+    //this.getAllDetails(this.collaborators[0].id);
+  }
+
+  getAllCollaborators(){
+    return this.service.getAllCollaborators().subscribe(data => this.fillCollaborators(data));
+  }
+
+  getCollaborator(collaboratorId:string){
+    this.service.getCollaborator(this.collaborators[0].id).subscribe(data => console.log(data));
+  }
+
+  getAllDetails(collaboratorId:string){
+    this.service.getAllDetails(collaboratorId).subscribe(data => console.log(data));
+  }
+
+  addDetail(){
+    let detail = new Detail();
+    for(let value of Object.values(this.tRequest)){
+        if(value.name == this.detail.topic){
+            detail.topic = new Topic(value);
+        }
+    } 
+    detail.expertise = this.detail.expertise;
+    console.log(detail);
+    detail.topic.createdAt = null;
+    this.service.addDetail(this.collaborators[0].id, detail).subscribe(data => console.log(data));
+  }
+*/
+  //---------------------------Collaborator-----------------------------------//
 
 }
