@@ -1,5 +1,6 @@
 import { TopicRequest  } from './topicRequest';
 export class Topic {
+    id:string;
     name: string;
     description: string;
     createdAt: string;

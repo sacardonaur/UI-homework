@@ -36,7 +36,6 @@ export class TopicComponent implements OnInit {
     for (let value of Object.values(this.tRequest)){
         this.localTopics.push({name:value.name, description:value.description});
     }
-    console.log(this.localTopics);
   }
 
   postTopic(){
@@ -44,9 +43,24 @@ export class TopicComponent implements OnInit {
   }
 
   deleteTopic(){
-    this.service.deleteTopic(this.topic.name).subscribe(data => this.getAllTopics());
+    this.service.deleteTopic(this.searchTopicByName(this.topic.name)).subscribe(data => this.getAllTopics());
   }
 
+  searchTopicByName(name: string){
+    for(let value of Object.values(this.tRequest)){
+        if(value.name == name){
+            return value.id;
+        }
+    }
+  }
 
+  searchTopic(){
+    this.service.getTopic(this.topic.name).subscribe(data => this.listTopics(data));
+  }
+
+  updateTopic(){
+    this.topic.id = this.searchTopicByName(this.topic.name); 
+    this.service.update(this.topic).subscribe(data => this.getAllTopics());
+  }
 
 }

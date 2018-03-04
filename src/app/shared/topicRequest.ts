@@ -1,4 +1,5 @@
 export interface TopicRequest {
+    id:string;
     name: string;
     description: string;
     createdAt: string;

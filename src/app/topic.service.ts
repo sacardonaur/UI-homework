@@ -28,6 +28,12 @@ export class TopicService {
     return this.http.get<TopicRequest[]>("http://localhost:8080/topics");  
   }
 
+  getTopic(name:string){
+    console.log("http://localhost:8080/topics/findByName/" + name);
+    return this.http.get<TopicRequest[]>("http://localhost:8080/topics/findByName/" + name);
+
+  }
+
   deleteTopic(name :string){
     name = "http://localhost:8080/topics/" + name;
     console.log(name);
@@ -37,6 +43,12 @@ export class TopicService {
   createTopic(topic: Topic){
          console.log(topic);
      return this.http.post<Topic>("http://localhost:8080/topics", JSON.stringify(topic), TopicService.httpOptions);
+
+  }
+
+  update(topic: Topic){
+     console.log(topic);
+     return this.http.put<Topic>("http://localhost:8080/topics", JSON.stringify(topic), TopicService.httpOptions);
 
   }
 
