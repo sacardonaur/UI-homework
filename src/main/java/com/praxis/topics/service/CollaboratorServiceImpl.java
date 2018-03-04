@@ -1,13 +1,14 @@
 package com.praxis.topics.service;
 
 import com.praxis.topics.model.Collaborator;
+import com.praxis.topics.model.Detail;
 import com.praxis.topics.repository.CollaboratorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service("collaborators")
 public class CollaboratorServiceImpl implements CollaboratorService{
 
     private final CollaboratorRepository collaboratorRepository;
@@ -24,7 +25,7 @@ public class CollaboratorServiceImpl implements CollaboratorService{
 
     @Override
     public Collaborator addCollaborator(Collaborator collaborator) {
-        return null;
+        return this.collaboratorRepository.save(collaborator);
     }
 
     @Override
@@ -37,9 +38,11 @@ public class CollaboratorServiceImpl implements CollaboratorService{
         return this.collaboratorRepository.findCollaboratorById(id);
     }
 
-    @Override
-    public Collaborator deleteCollaboratorById(String id) {
-        return null;
-    }
+
+
+
+
+
+
 }
 

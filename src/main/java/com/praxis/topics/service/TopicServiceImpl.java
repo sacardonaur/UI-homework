@@ -7,9 +7,10 @@ import com.praxis.topics.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Service
+@Service("topics")
 public class TopicServiceImpl implements TopicService {
 
     private final TopicRepository topicRepository;
@@ -30,6 +31,8 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Topic addTopic(Topic topic) {
+
+        //topic.setCreatedAt(LocalDateTime.now());
         return topicRepository.save(topic);
     }
 
@@ -48,8 +51,8 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Topic deleteTopicById(String id) {
-        return topicRepository.deleteTopicById(id);
+    public void deleteTopicById(String id) {
+        topicRepository.deleteTopicById(id);
     }
 
     @Override

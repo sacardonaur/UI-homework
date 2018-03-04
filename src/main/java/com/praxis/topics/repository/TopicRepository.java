@@ -12,7 +12,7 @@ public interface TopicRepository extends MongoRepository<Topic, String> {
     List<Topic> findTopicByStatus(Enum status);
     List<Topic> findAll();
     Topic findTopicById(String id);
-    Topic deleteTopicById(String id);
+    void deleteTopicById(String id);
     List<Topic> findAllByNameContains(String search);
 
 }

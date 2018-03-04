@@ -4,13 +4,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.praxis.topics.model.enums.Expertise;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
+@Document(collection = "Detail")
 public class Detail {
-
-    @Id
-    private int id;
 
     @NotEmpty(message = "Topic cannot be empty")
     private Topic topic;

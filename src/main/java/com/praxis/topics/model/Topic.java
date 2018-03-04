@@ -27,7 +27,7 @@ public class Topic {
 
     private int students;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
@@ -43,7 +43,7 @@ public class Topic {
     public Topic(String name, String description) {
         this.name = name;
         this.description = description;
-        this.setCreatedAt(LocalDateTime.now());
+        //this.setCreatedAt(LocalDateTime.now());
 
     }
 

@@ -10,4 +10,5 @@ import java.util.List;
 public interface CollaboratorRepository extends MongoRepository<Collaborator, String> {
     List<Collaborator> findAll();
     Collaborator findCollaboratorById(String id);
+
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface TopicService {
 
     List<Topic> getAllTopics();
@@ -19,7 +19,7 @@ public interface TopicService {
 
     Topic getTopicById(String id);
 
-    Topic deleteTopicById(String id);
+    void deleteTopicById(String id);
 
     List<Topic> getTopicsByName(String search);
 

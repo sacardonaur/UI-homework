@@ -4,12 +4,14 @@ import com.praxis.topics.exception.EntityNotFoundException;
 import com.praxis.topics.model.Topic;
 import com.praxis.topics.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@Qualifier("topics")
 @RequestMapping("/topics")
 public class TopicController {
 
@@ -36,9 +38,9 @@ public class TopicController {
         return topicService.updateTopic(topic);
     }
 
-    @DeleteMapping("/topics/{id}")
-    public Topic deleteTopicById(@PathVariable("id") String id){
-        return topicService.deleteTopicById(id);
+    @DeleteMapping("/{id}")
+    public void deleteTopicById(@PathVariable("id") String id){
+        topicService.deleteTopicById(id);
     }
 
     @GetMapping("/findByName/{name}")
