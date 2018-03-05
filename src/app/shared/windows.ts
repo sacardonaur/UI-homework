@@ -1,6 +1,8 @@
 export class Window{
-    static createTopic: boolean;
+    createTopic: boolean;
+    updateTopic: boolean;
     constructor(){
-        Window.createTopic = false;
+        this.createTopic = false;
+        this.updateTopic = false;
     }
 }
