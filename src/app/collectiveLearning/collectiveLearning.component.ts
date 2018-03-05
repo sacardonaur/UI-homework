@@ -24,12 +24,16 @@ export class CollectiveLearningComponent implements OnInit {
   localTopics = [];
   topic:Topic;
   detail: DetailFormTemplate;
-  isDataAvailable:boolean;
   windows : Window;
 
   //Material-Table
   displayedColumns = ['name', 'description', 'delete', 'Edit'];
   dataSource: MatTableDataSource<Topic>;
+
+  expertiseOptions = ["1", "2", "3"];
+
+  displayedColumsCollaborator = ['name', 'description', 'expertise', 'delete', 'Edit'];
+  dataSourceCollaborator: MatTableDataSource<Detail>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -37,14 +41,13 @@ export class CollectiveLearningComponent implements OnInit {
 
 
   collaboratorDemo = {name:"Luis", topicsToTeach:[]}; //Demo only!!!!
-  searchTopicsArray = []; //Demo Only!!!
 
 
   constructor(private service : CollectiveLearningService) {
     this.topic = new Topic();
     this.detail = new DetailFormTemplate();
     this.dataSource = new MatTableDataSource(this.localTopics);
-    //this.isDataAvailable = false;
+    this.dataSourceCollaborator = new MatTableDataSource(this.collaboratorDemo.topicsToTeach);
   }
 
   ngOnInit() {
@@ -55,33 +58,127 @@ export class CollectiveLearningComponent implements OnInit {
     //Mock
     this.collaboratorDemo.topicsToTeach = []; //demo
     this.collaboratorDemo.name = "Luis";
-    this.isDataAvailable = true;
     this.windows = new Window();
   }
 
 
   //--------------------------mock Collaborator-------------------------------//
+ 
+  
   addDetail(){
     let detailA = new Detail();
     detailA.topic = new Topic();
+    let cnt = this.searchTopic(this.detail.topic);
+    if(cnt > -1){
+       this.windows.createDetail = false;
+       let aux = this.localTopics[cnt];
+       detailA.topic.name = aux.name;
+       detailA.topic.description = aux.description;
+       detailA.expertise = this.detail.expertise;
+       this.collaboratorDemo.topicsToTeach.push(detailA);
+       this.dataSourceCollaborator.data = this.collaboratorDemo.topicsToTeach;
+       this.detail = new DetailFormTemplate();
+    }else{
+        alert("The topic does not exist. A new topic will be created\n Please add the description of the new topic");
+        this.windows.showDefaultCreateDetail = false;
+        this.windows.createTopicAndDetail = true;
+        return;
+    }
+  }
+
+  deleteDetail(name:string){
+    console.log(name);
     let cnt = 0;
-    for(let value of this.localTopics){
-        if(this.detail.topic == value.name){
-            detailA.topic.name = value.name;
-            detailA.topic.description = value.description;
-            detailA.expertise = this.detail.expertise;
+    for(let value of this.collaboratorDemo.topicsToTeach){
+        if(name == value.topic.name){
+            this.collaboratorDemo.topicsToTeach.splice(cnt, 1);
+            this.dataSourceCollaborator.data = this.collaboratorDemo.topicsToTeach;
             break;
         }
         cnt = cnt + 1;
     }
-    this.collaboratorDemo.topicsToTeach.push(detailA);
-  }
     
+
+  }    
+
+  addDetailAndTopic(){
+    this.windows.createDetail = false;
+    this.windows.showDefaultCreateDetail = true;
+    let detailA = new Detail();
+    detailA.topic = new Topic();
+    detailA.topic.name = this.detail.topic;
+    detailA.topic.description = this.detail.description;
+
+    this.localTopics.push(detailA.topic);
+    this.dataSource.data = this.localTopics;
+
+    detailA.expertise = this.detail.expertise;
+    this.collaboratorDemo.topicsToTeach.push(detailA);
+    this.dataSourceCollaborator.data = this.collaboratorDemo.topicsToTeach;
+    this.windows.createTopicAndDetail = false;
+    this.detail = new DetailFormTemplate();
+  
+  }
+
+  searchTopic(name:string){
+    var cnt = 0;
+    for(let value of this.localTopics){
+        if(value.name == name){
+            return cnt;
+        }
+        cnt++;
+    }
+    return -1;
+  }
+
+  showCollaboratorDemo(){
+    this.windows.collaboratorDemo = true;
+    this.windows.topicDemo = false;
+  }
+
+  updateEditWindow(name:string){
+    this.windows.updateDetail = true;
+    this.detail.topic = name;
+  }
+
+  createDetailWindow(){
+    this.windows.createDetail = !this.windows.createDetail;
+  }
+
+  updateDetail(){
+    let cnt = 0;
+    for(let value of this.collaboratorDemo.topicsToTeach){
+        if(this.detail.topic == value.topic.name){
+            this.collaboratorDemo.topicsToTeach[cnt].expertise = this.detail.expertise;
+            this.dataSourceCollaborator.data = this.collaboratorDemo.topicsToTeach;
+            this.windows.updateDetail = false;
+            this.detail = new DetailFormTemplate();
+            break;
+        }
+        cnt = cnt + 1;
+   }
+  }
 
   //---------------------------Topic Related Mock----------------------------------//  
 
-
+  showTopicDemo(){
+    this.windows.collaboratorDemo = false;
+    this.windows.topicDemo = true;
+  }
   postTopic(){
+    if(this.topic.name){
+        for(let value of this.localTopics){
+            if(this.topic.name == value.name){
+                alert("That topic already exists");
+                this.topic = new Topic();
+                return;
+            }
+        }        
+    }else{
+        alert("Name field is required");
+        return;
+    }
+    
     this.localTopics.push({name:this.topic.name, description:this.topic.description});
     this.dataSource.data = this.localTopics;
     this.windows.createTopic = false;
@@ -98,16 +195,19 @@ export class CollectiveLearningComponent implements OnInit {
         }
         cnt = cnt + 1;
     }
+    cnt = 0;
+    for(let value of this.collaboratorDemo.topicsToTeach){
+        if(name == value.topic.name){
+            this.collaboratorDemo.topicsToTeach.splice(cnt, 1);
+            this.dataSourceCollaborator.data = this.collaboratorDemo.topicsToTeach;
+            break;
+        }
+        cnt = cnt + 1;
+
+    }
+
   }
 
-  searchTopic(){
-    this.searchTopicsArray = [];
-    for(let value of this.localTopics){
-        if(value.name.indexOf(this.topic.name) != -1){
-            this.searchTopicsArray.push({name:value.name, description:value.description});
-        }
-    }
-  }
 
   updateTopic(){
     let cnt = 0;
