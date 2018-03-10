@@ -46,13 +46,13 @@ export class CollectiveLearningComponent implements OnInit {
   constructor(private service : CollectiveLearningService) {
     this.topic = new Topic();
     this.detail = new DetailFormTemplate();
-    this.dataSource = new MatTableDataSource(this.localTopics);
-    this.dataSourceCollaborator = new MatTableDataSource(this.collaboratorDemo.topicsToTeach);
-  }
+    }
 
   ngOnInit() {
-    /*
+    this.dataSource = new MatTableDataSource(this.localTopics);
+    this.dataSourceCollaborator = new MatTableDataSource(this.collaboratorDemo.topicsToTeach);
     this.getAllTopics(); 
+    /*
     this.getAllCollaborators();
     */
     //Mock
@@ -69,6 +69,13 @@ export class CollectiveLearningComponent implements OnInit {
     let detailA = new Detail();
     detailA.topic = new Topic();
     let cnt = this.searchTopic(this.detail.topic);
+    for(let value of this.collaboratorDemo.topicsToTeach){
+        if(value.topic.name == this.detail.topic){
+            alert("The topic already exists");
+            this.detail = new DetailFormTemplate();
+            return;
+        }
+    }
     if(cnt > -1){
        this.windows.createDetail = false;
        let aux = this.localTopics[cnt];
@@ -178,9 +185,7 @@ export class CollectiveLearningComponent implements OnInit {
         alert("Name field is required");
         return;
     }
-    
-    this.localTopics.push({name:this.topic.name, description:this.topic.description});
-    this.dataSource.data = this.localTopics;
+    this.service.createTopic(this.topic).subscribe(data => this.getAllTopics());
     this.windows.createTopic = false;
     this.topic = new Topic();
   }
@@ -233,6 +238,12 @@ export class CollectiveLearningComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+  applyFilterC(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSourceCollaborator.filter = filterValue;
+  }
+
   addTopicWindow(){
     this.windows.createTopic = !this.windows.createTopic;
   }
@@ -245,8 +256,9 @@ export class CollectiveLearningComponent implements OnInit {
 
   
   
-/* BackEnd 
-  //---------------------------Topic Related----------------------------------//  
+/* BackEnd*/ 
+  //---------------------------Topic Related----------------------------------// 
+
   getAllTopics(){
     return this.service.getAllTopics().subscribe(data => this.listTopics(data));
   }
@@ -257,8 +269,9 @@ export class CollectiveLearningComponent implements OnInit {
     for (let value of Object.values(this.tRequest)){
         this.localTopics.push({name:value.name, description:value.description});
     }
+    this.dataSource.data = this.localTopics;
   }
-
+/*
   postTopic(){
     this.service.createTopic(this.topic).subscribe(data => this.getAllTopics());
   }

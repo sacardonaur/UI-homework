@@ -1,5 +1,5 @@
 export class GlobalVariables {
-    static apiLocation : string = "http://localhost:8080";
+    static apiLocation : string = "https://praxis-integrador-backend.herokuapp.com/";
     
     //------------------Collaborator---------------//
     static collaborators = "/collaborators";
