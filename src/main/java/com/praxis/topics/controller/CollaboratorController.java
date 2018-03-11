@@ -60,7 +60,6 @@ public class CollaboratorController {
     @PostMapping("/{id}/details")
     public List<Detail> addDetail(@PathVariable("id") String id, @RequestBody  Detail detail) throws EntityNotFoundException {
         if(topicService.getTopicById(detail.getTopic().getId())== null)
-
         {
             topicService.addTopic(detail.getTopic());
         }
