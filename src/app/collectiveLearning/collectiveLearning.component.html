@@ -3,7 +3,7 @@
     <button mat-raised-button (click)="showCollaboratorDemo()"  color="primary">CollaboratorDemo</button>
 </mat-toolbar>
 <div [hidden]="!windows.collaboratorDemo">
-    <div>
+    <div *ngIf="windows.isColDemoInit">
         <mat-toolbar class="mat-typography">        
             <h1 align="center">{{this.collaboratorDemo.name}}'s Account</h1>
         </mat-toolbar>

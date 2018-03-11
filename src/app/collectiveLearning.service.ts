@@ -47,10 +47,17 @@ export class CollectiveLearningService {
                 GlobalVariables.details;
     
     detail.topic.createdAt = null;
-    console.log(detail);
     return this.http.post<Detail>(url, JSON.stringify(detail), CollectiveLearningService.httpOptions);
 
   }
+
+    deleteDetail(collaboratorId:string, detail:Detail){
+        let url = CollectiveLearningService.collaboratorURL + "/" + collaboratorId  + 
+                GlobalVariables.details;
+    
+        //return this.http.delete<Detail>(url, JSON.stringify(detail), CollectiveLearningService.httpOptions);
+
+   }
 
   //------------------------------Collaborator-------------------------------------------//
   //-----------------------------------Topics---------------------------------------------//   

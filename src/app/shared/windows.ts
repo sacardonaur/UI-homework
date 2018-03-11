@@ -7,6 +7,7 @@ export class Window{
     createDetail : boolean;
     updateDetail :boolean;
     showDefaultCreateDetail:boolean;
+    isColDemoInit:boolean;
     constructor(){
         this.createTopic = false;
         this.updateTopic = false;
@@ -15,5 +16,6 @@ export class Window{
         this.updateDetail = false;
         this.createTopicAndDetail = false;
         this.showDefaultCreateDetail = true;
+        this.isColDemoInit = false;
     }
 }

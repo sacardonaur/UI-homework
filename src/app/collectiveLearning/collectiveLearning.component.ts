@@ -25,6 +25,7 @@ export class CollectiveLearningComponent implements OnInit {
   topic:Topic;
   detail: DetailFormTemplate;
   windows : Window;
+  collaborators: Collaborator[];
 
   //Material-Table
   displayedColumns = ['name', 'description', 'delete', 'Edit'];
@@ -40,7 +41,7 @@ export class CollectiveLearningComponent implements OnInit {
   //Material-Table
 
 
-  collaboratorDemo = {name:"Luis", topicsToTeach:[]}; //Demo only!!!!
+  collaboratorDemo: Collaborator; //Demo only!!!!
 
 
   constructor(private service : CollectiveLearningService) {
@@ -50,14 +51,9 @@ export class CollectiveLearningComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.localTopics);
-    this.dataSourceCollaborator = new MatTableDataSource(this.collaboratorDemo.topicsToTeach);
+    this.dataSourceCollaborator = new MatTableDataSource();
     this.getAllTopics(); 
-    /*
     this.getAllCollaborators();
-    */
-    //Mock
-    this.collaboratorDemo.topicsToTeach = []; //demo
-    this.collaboratorDemo.name = "Luis";
     this.windows = new Window();
   }
 
@@ -82,8 +78,7 @@ export class CollectiveLearningComponent implements OnInit {
        detailA.topic.name = aux.name;
        detailA.topic.description = aux.description;
        detailA.expertise = this.detail.expertise;
-       this.collaboratorDemo.topicsToTeach.push(detailA);
-       this.dataSourceCollaborator.data = this.collaboratorDemo.topicsToTeach;
+       this.service.addDetail(this.collaborators[0].id, detailA).subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
        this.detail = new DetailFormTemplate();
     }else{
         alert("The topic does not exist. A new topic will be created\n Please add the description of the new topic");
@@ -93,35 +88,28 @@ export class CollectiveLearningComponent implements OnInit {
     }
   }
 
+
   deleteDetail(name:string){
-    console.log(name);
-    let cnt = 0;
-    for(let value of this.collaboratorDemo.topicsToTeach){
+/*    for(let value of this.collaboratorDemo.topicsToTeach){
         if(name == value.topic.name){
-            this.collaboratorDemo.topicsToTeach.splice(cnt, 1);
-            this.dataSourceCollaborator.data = this.collaboratorDemo.topicsToTeach;
+            this.service.deleteDetail(this.collaborators[0].id, value)
+                    .subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
             break;
         }
-        cnt = cnt + 1;
     }
-    
+  */  
 
   }    
-
-  addDetailAndTopic(){
+ 
+ addDetailAndTopic(){
     this.windows.createDetail = false;
     this.windows.showDefaultCreateDetail = true;
     let detailA = new Detail();
     detailA.topic = new Topic();
     detailA.topic.name = this.detail.topic;
     detailA.topic.description = this.detail.description;
-
-    this.localTopics.push(detailA.topic);
-    this.dataSource.data = this.localTopics;
-
     detailA.expertise = this.detail.expertise;
-    this.collaboratorDemo.topicsToTeach.push(detailA);
-    this.dataSourceCollaborator.data = this.collaboratorDemo.topicsToTeach;
+    this.service.addDetail(this.collaborators[0].id, detailA).subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
     this.windows.createTopicAndDetail = false;
     this.detail = new DetailFormTemplate();
   
@@ -157,7 +145,8 @@ export class CollectiveLearningComponent implements OnInit {
     for(let value of this.collaboratorDemo.topicsToTeach){
         if(this.detail.topic == value.topic.name){
             this.collaboratorDemo.topicsToTeach[cnt].expertise = this.detail.expertise;
-            this.dataSourceCollaborator.data = this.collaboratorDemo.topicsToTeach;
+            this.service.addDetail(this.collaborators[0].id, this.collaboratorDemo.topicsToTeach[cnt])
+                .subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
             this.windows.updateDetail = false;
             this.detail = new DetailFormTemplate();
             break;
@@ -169,6 +158,7 @@ export class CollectiveLearningComponent implements OnInit {
   //---------------------------Topic Related Mock----------------------------------//  
 
   showTopicDemo(){
+    this.getAllTopics();
     this.windows.collaboratorDemo = false;
     this.windows.topicDemo = true;
   }
@@ -185,6 +175,7 @@ export class CollectiveLearningComponent implements OnInit {
         alert("Name field is required");
         return;
     }
+    console.log(this.topic);
     this.service.createTopic(this.topic).subscribe(data => this.getAllTopics());
     this.windows.createTopic = false;
     this.topic = new Topic();
@@ -194,9 +185,8 @@ export class CollectiveLearningComponent implements OnInit {
     let cnt = 0;
     for(let value of this.localTopics){
         if(name == value.name){
-            this.localTopics.splice(cnt, 1);
-            this.dataSource.data = this.localTopics;
-            break;
+         this.service.deleteTopic(this.searchTopicByName(name)).subscribe(data => this.getAllTopics());
+         break;
         }
         cnt = cnt + 1;
     }
@@ -218,8 +208,8 @@ export class CollectiveLearningComponent implements OnInit {
     let cnt = 0;
     for(let value of this.localTopics){
         if(this.topic.name == value.name){
-            this.localTopics[cnt] = {name:this.topic.name, description:this.topic.description};
-            this.dataSource.data = this.localTopics;
+            this.topic.id = this.searchTopicByName(this.topic.name); 
+            this.service.update(this.topic).subscribe(data => this.getAllTopics());
             this.windows.updateTopic = false;
             this.topic = new Topic();
             break;
@@ -279,7 +269,7 @@ export class CollectiveLearningComponent implements OnInit {
   deleteTopic(){
     this.service.deleteTopic(this.searchTopicByName(this.topic.name)).subscribe(data => this.getAllTopics());
   }
-
+*/
   searchTopicByName(name: string){
     for(let value of Object.values(this.tRequest)){
         if(value.name == name){
@@ -287,7 +277,7 @@ export class CollectiveLearningComponent implements OnInit {
         }
     }
   }
-
+/*
   searchTopic(name:string){
     if(name){
         return this.service.getTopic(name);
@@ -306,26 +296,27 @@ export class CollectiveLearningComponent implements OnInit {
 */
 
   //---------------------------Collaborator-----------------------------------//
-/*
+
   fillCollaborators(data: Collaborator[]){
     this.collaborators = { ...data };
-    this.isDataAvailable = true;
-    //this.getCollaborator("yes");
-    //this.getAllDetails(this.collaborators[0].id);
+    this.collaboratorDemo = this.collaborators[0];
+    this.windows.isColDemoInit = true;
+    this.dataSourceCollaborator.data = this.collaborators[0].topicsToTeach;
   }
 
   getAllCollaborators(){
     return this.service.getAllCollaborators().subscribe(data => this.fillCollaborators(data));
   }
-
+/*
   getCollaborator(collaboratorId:string){
     this.service.getCollaborator(this.collaborators[0].id).subscribe(data => console.log(data));
   }
-
+*/
   getAllDetails(collaboratorId:string){
-    this.service.getAllDetails(collaboratorId).subscribe(data => console.log(data));
+    this.service.getAllDetails(collaboratorId)
+        .subscribe(data => this.dataSourceCollaborator.data=data);
   }
-
+/*
   addDetail(){
     let detail = new Detail();
     for(let value of Object.values(this.tRequest)){
