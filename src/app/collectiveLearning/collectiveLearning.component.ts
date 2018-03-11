@@ -80,7 +80,7 @@ export class CollectiveLearningComponent implements OnInit {
        detailA.topic.id = aux.id;
        detailA.expertise = this.detail.expertise;
        //this.service.deleteTopic(this.searchTopicByName(aux.name)).subscribe(data => this.getAllTopics());
-       this.service.addDetail(this.collaborators[0].id, detailA).subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
+       this.service.addDetail(this.collaboratorDemo.id, detailA).subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
        this.detail = new DetailFormTemplate();
     }else{
         alert("The topic does not exist. A new topic will be created\n Please add the description of the new topic");
