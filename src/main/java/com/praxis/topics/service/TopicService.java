@@ -23,4 +23,6 @@ public interface TopicService {
 
     List<Topic> getTopicsByName(String search);
 
+    Topic getTopicByName(String name);
+
 }

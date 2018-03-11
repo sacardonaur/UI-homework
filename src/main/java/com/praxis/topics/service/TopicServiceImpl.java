@@ -61,6 +61,11 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
+    public Topic getTopicByName(String name) {
+        return topicRepository.findTopicByName(name);
+    }
+
+    @Override
     public List<Topic>getAllTopics(){
         return topicRepository.findAll();
     }
