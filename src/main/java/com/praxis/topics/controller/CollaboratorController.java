@@ -64,10 +64,6 @@ public class CollaboratorController {
             topicService.addTopic(detail.getTopic());
         }
 
-        else{
-            topicService.updateTopic(detail.getTopic());
-        }
-
         Collaborator collaborator = collaboratorService.getCollaboratorById(id);
         List <Detail> topicsToTeach = collaborator.getTopicsToTeach();
 
