@@ -51,11 +51,11 @@ export class CollectiveLearningService {
 
   }
 
-    deleteDetail(collaboratorId:string, detail:Detail){
+    deleteDetail(collaboratorId:string, topic:string){
         let url = CollectiveLearningService.collaboratorURL + "/" + collaboratorId  + 
-                GlobalVariables.details;
+                GlobalVariables.details + "/" + topic;
     
-        //return this.http.delete<Detail>(url, JSON.stringify(detail), CollectiveLearningService.httpOptions);
+        return this.http.delete(url, CollectiveLearningService.httpOptions);
 
    }
 

@@ -40,10 +40,10 @@
               <mat-cell *matCellDef="let row">  <button (click)="deleteDetail(row.topic.name)" mat-raised-button color="primary">Delete</button> </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="Edit">
+            <!--ng-container matColumnDef="Edit">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Edit </mat-header-cell>
               <mat-cell *matCellDef="let row">  <button (click)="updateEditWindow(row.topic.name)" mat-raised-button color="primary">Edit</button> </mat-cell>
-            </ng-container>
+            </ng-container-->
 
             <mat-header-row *matHeaderRowDef="displayedColumsCollaborator"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumsCollaborator;">
@@ -83,7 +83,7 @@
                 <button *ngIf="windows.showDefaultCreateDetail" mat-raised-button  
                         color="primary" (click)="addDetail()" class="btn btn-success">Create</button>
                 <button *ngIf="windows.createTopicAndDetail" mat-raised-button  
-                        color="primary" (click)="addDetailAndTopic()" type="submit"class="btn btn-success">Create</button>
+                        color="primary" (click)="addDetailAndTopic()" type="submit"class="btn btn-success">Add Topic</button>
                 <button mat-raised-button (click)="windows.createDetail = false" color="primary">Cancel</button>
              </div>
 
