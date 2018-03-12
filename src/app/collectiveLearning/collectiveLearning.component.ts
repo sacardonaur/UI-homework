@@ -82,7 +82,7 @@ export class CollectiveLearningComponent implements OnInit {
        //this.service.deleteTopic(this.searchTopicByName(aux.name)).subscribe(data => this.getAllTopics());
        this.service.addDetail(this.collaboratorDemo.id, detailA).subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
        this.detail = new DetailFormTemplate();
-    }else{
+    }else{         
         alert("The topic does not exist. A new topic will be created\n Please add the description of the new topic");
         this.windows.showDefaultCreateDetail = false;
         this.windows.createTopicAndDetail = true;
@@ -120,7 +120,7 @@ export class CollectiveLearningComponent implements OnInit {
   searchTopic(name:string){
     var cnt = 0;
     for(let value of this.localTopics){
-        if(value.name == name){
+        if(value.name.toLowerCase() == name.toLowerCase()){
             return cnt;
         }
         cnt++;
@@ -162,7 +162,7 @@ export class CollectiveLearningComponent implements OnInit {
     for(let value of this.collaboratorDemo.topicsToTeach){
         if(this.detail.topic == value.topic.name){
             this.collaboratorDemo.topicsToTeach[cnt].expertise = this.detail.expertise;
-            this.service.addDetail(this.collaborators[0].id, this.collaboratorDemo.topicsToTeach[cnt])
+            this.service.addDetail(this.collaboratorDemo.id, this.collaboratorDemo.topicsToTeach[cnt])
                 .subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
             this.windows.updateDetail = false;
             this.detail = new DetailFormTemplate();
@@ -306,9 +306,15 @@ export class CollectiveLearningComponent implements OnInit {
 
   fillCollaborators(data: Collaborator[]){
     this.collaborators = { ...data };
-    this.collaboratorDemo = this.collaborators[0];
-    this.windows.isColDemoInit = true;
-    this.dataSourceCollaborator.data = this.collaborators[0].topicsToTeach;
+    console.log(this.collaborators);
+    for(let value of Object.values(this.collaborators)){
+        console.log(value);
+        if(value.name == "Luis"){
+            this.dataSourceCollaborator.data = value.topicsToTeach;
+            this.collaboratorDemo = value;
+            this.windows.isColDemoInit = true;
+        }
+    }
   }
 
   getAllCollaborators(){
