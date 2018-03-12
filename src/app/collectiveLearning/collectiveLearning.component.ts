@@ -131,11 +131,24 @@ export class CollectiveLearningComponent implements OnInit {
   showCollaboratorDemo(){
     this.windows.collaboratorDemo = true;
     this.windows.topicDemo = false;
+    this.resetForms();
   }
 
   updateEditWindow(name:string){
     this.windows.updateDetail = true;
     this.detail.topic = name;
+  }
+
+  cancelTopicCreation(){
+    this.windows.createDetail = false;
+    this.windows.createTopicAndDetail = false;
+    this.windows.showDefaultCreateDetail = true;
+  }
+
+  resetForms(){
+    this.windows.createTopic = false;
+    this.cancelTopicCreation();
+
   }
 
   createDetailWindow(){
@@ -163,6 +176,7 @@ export class CollectiveLearningComponent implements OnInit {
     this.getAllTopics();
     this.windows.collaboratorDemo = false;
     this.windows.topicDemo = true;
+    this.resetForms();
   }
   postTopic(){
     if(this.topic.name){
