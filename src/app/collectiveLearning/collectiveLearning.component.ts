@@ -66,7 +66,7 @@ export class CollectiveLearningComponent implements OnInit {
     detailA.topic = new Topic();
     let cnt = this.searchTopic(this.detail.topic);
     for(let value of this.collaboratorDemo.topicsToTeach){
-        if(value.topic.name == this.detail.topic){
+        if(value.topic.name.toLowerCase() == this.detail.topic.toLowerCase()){
             alert("The topic already exists");
             this.detail = new DetailFormTemplate();
             return;
@@ -183,7 +183,7 @@ export class CollectiveLearningComponent implements OnInit {
   postTopic(){
     if(this.topic.name){
         for(let value of this.localTopics){
-            if(this.topic.name == value.name){
+            if(this.topic.name.toLowerCase() == value.name.toLowerCase()){
                 alert("That topic already exists");
                 this.topic = new Topic();
                 return;
