@@ -153,6 +153,8 @@ export class CollectiveLearningComponent implements OnInit {
 
   createDetailWindow(){
     this.windows.createDetail = !this.windows.createDetail;
+    this.windows.createTopicAndDetail = false;
+    this.windows.showDefaultCreateDetail = true;
   }
 
   updateDetail(){
