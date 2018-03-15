@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.net.URL;
 import java.time.LocalDateTime;
 
 @Document(collection = "Detail")
@@ -19,7 +20,7 @@ public class Detail {
     @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdAt;
 
-    private String link;
+    private URL link;
 
     public Detail() {
 
@@ -31,11 +32,11 @@ public class Detail {
         this.createdAt = LocalDateTime.now();
     }
 
-    public String getLink() {
+    public URL getLink() {
         return link;
     }
 
-    public void setLink(String link) {
+    public void setLink(URL link) {
         this.link = link;
     }
 
