@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +22,7 @@ public class Collaborator {
 
     private List<Detail> topicsToLearn;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdAt;
 
     public Collaborator() {
