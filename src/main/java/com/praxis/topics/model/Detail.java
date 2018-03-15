@@ -1,11 +1,9 @@
 package com.praxis.topics.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.praxis.topics.model.enums.Expertise;
-import org.apache.tomcat.jni.Local;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +16,7 @@ public class Detail {
     @NotEmpty(message = "Expertise cannot be empty")
     private Expertise expertise;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdAt;
 
     public Detail() {
