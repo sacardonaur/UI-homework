@@ -2,6 +2,7 @@ package com.praxis.topics.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.praxis.topics.model.enums.Expertise;
+import org.apache.tomcat.jni.Local;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -27,6 +28,7 @@ public class Detail {
     public Detail(Topic topic, Expertise expertise) {
         this.topic = topic;
         this.expertise = expertise;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Topic getTopic() {

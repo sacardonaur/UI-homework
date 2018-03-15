@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @CrossOrigin
@@ -31,6 +34,7 @@ public class TopicController {
 
     @PostMapping
     public Topic createTopic(@RequestBody @Valid Topic topic) {
+        topic.setCreatedAt(LocalDateTime.now());
         return topicService.addTopic(topic);
     }
 

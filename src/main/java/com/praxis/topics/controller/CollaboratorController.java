@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -59,6 +60,7 @@ public class CollaboratorController {
 
     @PostMapping("/{id}/details")
     public List<Detail> addDetail(@PathVariable("id") String id, @RequestBody  Detail detail) throws EntityNotFoundException {
+        detail.setCreatedAt(LocalDateTime.now());
         if(topicService.getTopicById(detail.getTopic().getId())== null)
         {
             topicService.addTopic(detail.getTopic());
