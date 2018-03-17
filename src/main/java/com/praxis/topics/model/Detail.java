@@ -20,7 +20,7 @@ public class Detail {
     @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime createdAt;
 
-    private URL link;
+    private URL url;
 
     public Detail() {
 
@@ -32,12 +32,19 @@ public class Detail {
         this.createdAt = LocalDateTime.now();
     }
 
-    public URL getLink() {
-        return link;
+    public Detail(Topic topic, Expertise expertise, URL url) {
+        this.topic = topic;
+        this.expertise = expertise;
+        this.createdAt = LocalDateTime.now();
+        this.url = url;
     }
 
-    public void setLink(URL link) {
-        this.link = link;
+    public URL getUrl() {
+        return url;
+    }
+
+    public void setUrl(URL url) {
+        this.url = url;
     }
 
     public Topic getTopic() {
@@ -64,4 +71,5 @@ public class Detail {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
 }

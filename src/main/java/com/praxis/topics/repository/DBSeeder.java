@@ -3,6 +3,7 @@ package com.praxis.topics.repository;
 import com.praxis.topics.model.Collaborator;
 import com.praxis.topics.model.Detail;
 import com.praxis.topics.model.Topic;
+import com.praxis.topics.model.enums.Kind;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.praxis.topics.model.enums.Expertise;
@@ -33,10 +34,13 @@ public class DBSeeder implements CommandLineRunner {
         Detail detail13 = new Detail(topic3,Expertise.expert);
 
         List<Detail> topicsToTeach = Arrays.asList(detail1, detail12,detail13);
+        List<Detail> topicsToTeach2 = Arrays.asList();
+
 
         Collaborator collaborator1 = new Collaborator("Luis");
         Collaborator collaborator2 = new Collaborator("Jefferson");
         collaborator1.setTopicsToTeach(topicsToTeach);
+        collaborator2.setTopicsToTeach(topicsToTeach2);
 
         // Drop all
         this.topicRepository.deleteAll();

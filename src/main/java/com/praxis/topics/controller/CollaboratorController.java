@@ -3,6 +3,7 @@ package com.praxis.topics.controller;
 import com.praxis.topics.exception.EntityNotFoundException;
 import com.praxis.topics.model.Collaborator;
 import com.praxis.topics.model.Detail;
+import com.praxis.topics.model.Topic;
 import com.praxis.topics.repository.CollaboratorRepository;
 import com.praxis.topics.service.CollaboratorService;
 import com.praxis.topics.service.TopicService;
@@ -52,41 +53,45 @@ public class CollaboratorController {
     }
 
 
-    @GetMapping("/{id}/details")
+    @GetMapping("/{id}/topicsToTeach")
     public List<Detail> getDetailsByCollaborator(@PathVariable("id") String id){
         Collaborator collaborator = collaboratorService.getCollaboratorById(id);
        return collaborator.getTopicsToTeach();
     }
 
-    @PostMapping("/{id}/details")
-    public List<Detail> addDetail(@PathVariable("id") String id, @RequestBody  Detail detail) throws EntityNotFoundException {
+    @PostMapping("/{id}/topicsToteach")
+    public List<Detail> addDetail(@PathVariable("id") String id, @RequestBody  Detail detail) {
         detail.setCreatedAt(LocalDateTime.now());
-        if(topicService.getTopicById(detail.getTopic().getId())== null)
-        {
-            topicService.addTopic(detail.getTopic());
-        }
 
-        else{
-            topicService.updateTopic(detail.getTopic());
-        }
-
+        Topic topic = detail.getTopic();
         Collaborator collaborator = collaboratorService.getCollaboratorById(id);
         List <Detail> topicsToTeach = collaborator.getTopicsToTeach();
 
+        // If the topic does not exist in the db
+        if(topicService.getTopicById(topic.getId())== null)
+        {
+            //topic.setTeachers(1);
+            topicService.addTopic(topic);
+        }
+
+        // The topic exists in the db
+
         int index = -1;
-        for (Detail d: topicsToTeach){
-            if (detail.getTopic().getId().equals(d.getTopic().getId())){
+        for (Detail d : topicsToTeach) {
+            if (detail.getTopic().getId().equals(d.getTopic().getId())) {
                 index = topicsToTeach.indexOf(d);
             }
         }
 
-        if (index != -1){
+        if (index != -1) {
             topicsToTeach.set(index, detail);
         }
 
         else{
-
             topicsToTeach.add(detail);
+            int nteach = topicService.getTopicById(topic.getId()).getTeachers();
+            topic.setTeachers(nteach + 1);
+            topicService.addTopic(topic);
         }
 
         collaborator.setTopicsToTeach(topicsToTeach);
@@ -94,7 +99,7 @@ public class CollaboratorController {
 
     }
 
-    @DeleteMapping("/{id}/details/{topicId}")
+    @DeleteMapping("/{id}/topicsToteach/{topicId}")
     public List <Detail> deleteDetail(@PathVariable("id") String id, @PathVariable("topicId") String topicId){
 
         Collaborator collaborator = collaboratorService.getCollaboratorById(id);
@@ -106,12 +111,18 @@ public class CollaboratorController {
                 index = topicsToTeach.indexOf(d);
             }
         }
+        Topic topic = topicService.getTopicById(topicId);
+
         if(index != -1){
             topicsToTeach.remove(index);
+            topic.setTeachers(topic.getTeachers() - 1);
+            topicService.addTopic(topic);
         }
 
         collaborator.setTopicsToTeach(topicsToTeach);
         return collaboratorService.updateCollaborator(collaborator).getTopicsToTeach();
     }
+
+
 
 }
