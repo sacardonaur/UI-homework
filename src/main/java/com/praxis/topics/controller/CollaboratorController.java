@@ -59,7 +59,7 @@ public class CollaboratorController {
        return collaborator.getTopicsToTeach();
     }
 
-    @PostMapping("/{id}/topicsToteach")
+    @PostMapping("/{id}/topicsToTeach")
     public List<Detail> addDetail(@PathVariable("id") String id, @RequestBody  Detail detail) {
         detail.setCreatedAt(LocalDateTime.now());
 
@@ -99,7 +99,7 @@ public class CollaboratorController {
 
     }
 
-    @DeleteMapping("/{id}/topicsToteach/{topicId}")
+    @DeleteMapping("/{id}/topicsToTeach/{topicId}")
     public List <Detail> deleteDetail(@PathVariable("id") String id, @PathVariable("topicId") String topicId){
 
         Collaborator collaborator = collaboratorService.getCollaboratorById(id);
@@ -122,6 +122,72 @@ public class CollaboratorController {
         collaborator.setTopicsToTeach(topicsToTeach);
         return collaboratorService.updateCollaborator(collaborator).getTopicsToTeach();
     }
+
+    @GetMapping("/{id}/topicsToLearn")
+    public List<Detail> getTopicToLearnByCollaborator(@PathVariable("id") String id){
+        Collaborator collaborator = collaboratorService.getCollaboratorById(id);
+        return collaborator.getTopicsToLearn();
+    }
+
+    @PostMapping("/{id}/topicsToLearn")
+    public List<Detail> addTopicToLearn(@PathVariable("id") String id, @RequestBody  Detail detail) {
+
+        Collaborator collaborator = collaboratorService.getCollaboratorById(id);
+        List<Detail> topicsToLearn = collaborator.getTopicsToLearn();
+        Topic topic = topicService.getTopicById(detail.getTopic().getId());
+        int nstudents = topic.getStudents();
+
+        int index = -1;
+        for (Detail d : topicsToLearn) {
+            if (detail.getTopic().getId().equals(d.getTopic().getId())) {
+                index = topicsToLearn.indexOf(d);
+            }
+        }
+
+        if (index != -1) {
+            topicsToLearn.set(index, detail);
+
+        }
+
+        else
+        {
+            topicsToLearn.add(detail);
+            topic.setStudents(nstudents + 1);
+        }
+
+        topicService.addTopic(topic);
+        collaborator.setTopicsToLearn(topicsToLearn);
+        return collaborator.getTopicsToLearn();
+    }
+
+    @DeleteMapping("/{id}/topicsToLearn/{topicId}")
+    public List <Detail> deleteTopicToLearn(@PathVariable("id") String id, @PathVariable("topicId") String topicId){
+        Collaborator collaborator = collaboratorService.getCollaboratorById(id);
+        List <Detail> topicsToLearn = collaborator.getTopicsToLearn();
+
+        int index  = -1;
+        for (Detail d: topicsToLearn){
+            if (topicId.equals(d.getTopic().getId())){
+                index = topicsToLearn.indexOf(d);
+            }
+        }
+        Topic topic = topicService.getTopicById(topicId);
+
+        if(index != -1){
+            topicsToLearn.remove(index);
+            topic.setStudents(topic.getStudents() - 1);
+            topicService.addTopic(topic);
+        }
+
+        collaborator.setTopicsToTeach(topicsToLearn);
+        return collaboratorService.updateCollaborator(collaborator).getTopicsToLearn();
+
+    }
+
+
+
+
+
 
 
 

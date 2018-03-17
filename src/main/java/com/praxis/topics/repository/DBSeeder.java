@@ -35,12 +35,14 @@ public class DBSeeder implements CommandLineRunner {
 
         List<Detail> topicsToTeach = Arrays.asList(detail1, detail12,detail13);
         List<Detail> topicsToTeach2 = Arrays.asList();
-
+        List<Detail> topicsToLearn = Arrays.asList();
 
         Collaborator collaborator1 = new Collaborator("Luis");
         Collaborator collaborator2 = new Collaborator("Jefferson");
         collaborator1.setTopicsToTeach(topicsToTeach);
         collaborator2.setTopicsToTeach(topicsToTeach2);
+        collaborator1.setTopicsToLearn(topicsToLearn);
+        collaborator2.setTopicsToLearn(topicsToLearn);
 
         // Drop all
         this.topicRepository.deleteAll();
