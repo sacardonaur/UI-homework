@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.*;
 
+//test for details
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class DetailServiceImplTest {

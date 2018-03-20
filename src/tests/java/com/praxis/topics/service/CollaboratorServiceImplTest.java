@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.*;
 
+//test for collaborator
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class CollaboratorServiceImplTest {
@@ -28,6 +29,7 @@ public class CollaboratorServiceImplTest {
 
     @Test
     public void getAllCollaborators() {
+        collaboratorRepository.deleteAll();
         Collaborator c = new Collaborator("test");
         Collaborator c1 = new Collaborator("test1");
         Collaborator c2 = new Collaborator("test2");
@@ -62,6 +64,6 @@ public class CollaboratorServiceImplTest {
         c.setId("123");
         collaboratorService.addCollaborator(c);
 
-        assertEquals(c, collaboratorService.getCollaboratorById("123"));
+        assertEquals("123", collaboratorService.getCollaboratorById("123").getId());
     }
 }

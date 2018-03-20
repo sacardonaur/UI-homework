@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.*;
 
+//test for topics
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class TopicServiceImplTest {
@@ -71,7 +72,7 @@ public class TopicServiceImplTest {
         Topic topic = new Topic("test","test");
         topic.setId("123");
         topicService.addTopic(topic);
-        assertEquals(topic, topicService.getTopicById("123"));
+        assertEquals("123", topicService.getTopicById("123").getId());
     }
 
     @Test
@@ -92,14 +93,17 @@ public class TopicServiceImplTest {
     public void getTopicsByName() {
         Topic topic = new Topic("java", "test");
         Topic topic1 = new Topic("test2", "test2");
+        topicService.addTopic(topic);
+        topicService.addTopic(topic1);
         //assertTrue(topicService.getTopicsByName("java").contains(topic));
-        assertEquals(1,topicService.getTopicsByName("java"));
+        assertEquals(1,topicService.getTopicsByName("java").size());
     }
 
     @Test
     public void getTopicByName() {
-        Topic topic = new Topic("test", "test");
-        assertEquals(topic, topicService.getTopicByName("test"));
+        Topic topic = new Topic("noMeDa", "test");
+        topicService.addTopic(topic);
+        assertEquals("noMeDa", topicService.getTopicByName("noMeDa").getName());
     }
 
     @Test
