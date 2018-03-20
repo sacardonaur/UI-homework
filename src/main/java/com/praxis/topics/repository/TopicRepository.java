@@ -13,7 +13,7 @@ public interface TopicRepository extends MongoRepository<Topic, String> {
     List<Topic> findAll();
     Topic findTopicById(String id);
     void deleteTopicById(String id);
-    List<Topic> findAllByNameContains(String search);
+    List<Topic> findAllByNameContainsIgnoreCase(String search);
     Topic findTopicByName(String name);
 
 }

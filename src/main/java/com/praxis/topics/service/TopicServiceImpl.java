@@ -57,7 +57,7 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public List<Topic> getTopicsByName(String name) {
-        return topicRepository.findAllByNameContains(name);
+        return topicRepository.findAllByNameContainsIgnoreCase(name);
     }
 
     @Override
