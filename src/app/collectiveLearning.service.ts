@@ -46,7 +46,6 @@ export class CollectiveLearningService {
     let url = CollectiveLearningService.collaboratorURL + "/" + collaboratorId  + 
                 GlobalVariables.details;
     
-    detail.topic.createdAt = null;
     return this.http.post<Detail>(url, JSON.stringify(detail), CollectiveLearningService.httpOptions);
 
   }

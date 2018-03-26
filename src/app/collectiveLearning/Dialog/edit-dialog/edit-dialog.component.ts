@@ -27,7 +27,7 @@ export class EditDialogComponent implements OnInit {
         this.collaboratorName = data.collaboratorName;
         this.collaboratorId = data.collaboratorId;
         this.editDetailForm = new FormGroup({
-            'expertise': new FormControl("", [Validators.max(2), Validators.min(0)])
+            'expertise': new FormControl("", [Validators.max(2), Validators.min(1)])
         });
   }
 
@@ -41,7 +41,8 @@ export class EditDialogComponent implements OnInit {
   }
 
   cancelDialog(){
-    this.dialogRef.close("canceled");
+    console.log('her');
+    this.dialogRef.close();
   }
 
 }

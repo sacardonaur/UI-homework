@@ -145,9 +145,10 @@ export class CollectiveLearningComponent implements OnInit {
         modalRef.afterClosed().subscribe(result => {
             if(result === "canceled" || result === undefined){
                 return;
+            }else{
+                this.initializeDetails(result);
             }
-            this.initializeDetails(result);
-            });
+        });
         break;
     }
     cnt = cnt + 1;
@@ -250,7 +251,12 @@ export class CollectiveLearningComponent implements OnInit {
     let array = [];
     console.log(data);
     for(let i = 0; i < data.length; i++){
-        let addedAt = data[i].addedAt.substring(0,10);
+        let addedAt = "";
+        if(data[i].addedAt){
+            addedAt = data[i].addedAt.substring(0,10);
+        }else{
+            addedAt = data[i].topic.createdAt.substring(0,10);
+        }
         
         let expertise = "";
         if(data[i].expertise === "beginner"){
