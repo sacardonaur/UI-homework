@@ -25,7 +25,7 @@ public class DBSeeder implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-        /*
+
         Topic topic1 = new Topic("Java", "Java course");
         Topic topic2 = new Topic("Java for dummies", "Java course: an introduction");
         Topic topic3 = new Topic("Python", "Data Science in Python");
@@ -61,7 +61,6 @@ public class DBSeeder implements CommandLineRunner {
 
         this.topicRepository.save(topics);
         this.collaboratorRepository.save(collaborators);
-        */
 
     }
 }
