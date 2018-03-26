@@ -65,12 +65,17 @@
               </mat-cell>
             </ng-container>
 
-            
+                        
 
             <mat-header-row *matHeaderRowDef="displayedColumsCollaborator"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumsCollaborator;">
             </mat-row>
+
+            
           </mat-table>
+          <!--mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator-->
+
+
         </div>
         <br>
         <div class="button-row">
