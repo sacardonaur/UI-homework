@@ -3,7 +3,7 @@ export class Topic {
     id:string;
     name: string;
     description: string;
-    createdAt: any;
+    createdAt: string;
     expiredAt: any;
     openedAt: any;
     teachers: number;

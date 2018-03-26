@@ -21,11 +21,23 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { StarRatingModule } from 'angular-star-rating';
+import { MatIconModule } from '@angular/material/icon';
+
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+import { AddDetailComponent } from './collectiveLearning/Dialog/add-detail/add-detail.component';
+import { EditDialogComponent } from './collectiveLearning/Dialog/edit-dialog/edit-dialog.component';
+import { DeleteDialogComponent } from './collectiveLearning/Dialog/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CollectiveLearningComponent,
+    AddDetailComponent,
+    EditDialogComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,8 +54,18 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonModule,
     MatDialogModule,
     MatToolbarModule,
-    MatSelectModule
-   ],
+    MatIconModule,
+    MatSelectModule,
+    MatDialogModule, 
+    StarRatingModule,
+    MatAutocompleteModule,
+    MatTooltipModule,
+  ],
+  entryComponents: [
+    AddDetailComponent,
+    EditDialogComponent,
+    DeleteDialogComponent,
+  ],
   providers: [CollectiveLearningService],
   bootstrap: [AppComponent]
 })

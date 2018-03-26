@@ -1,0 +1,61 @@
+<form #detailForm="ngForm">
+    <div [formGroup]="addDetailForm" [hidden]="!windows.showDefaultCreateDetail">
+      <h2>Agregar Tema</h2>
+      <mat-form-field>
+        <input matInput placeholder="Nombre" name="topic" formControlName="topic" 
+            required [(ngModel)]="detail.topic">
+        <!--mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let topic of filteredTopics | async" [value]="topic">
+                <span>{{topic}}</span>
+            </mat-option>
+        </mat-autocomplete-->
+      </mat-form-field>
+      <p style="color:red;" *ngIf="detailExists">El Detalle ya existe</p>
+      <br>
+      <mat-form-field>
+          <mat-select [(value)]="detail.expertise" required placeholder="Experiencia" name="expertise" formControlName="expertise">
+            <mat-option value="0">★</mat-option>
+            <mat-option value="1">★★</mat-option>
+            <mat-option value="2">★★★</mat-option>
+        </mat-select>             
+      </mat-form-field>
+        
+      <mat-form-field *ngIf="windows.createTopicAndDetail">
+        <textarea [(value)]="detail.description" matInput placeholder="description" name="description"></textarea>
+      </mat-form-field>
+
+      <div class="button-row">
+        <button mat-button  
+                (click)="addDetail()" [disabled]="addDetailForm.invalid" class="btn btn-success">Agregar</button>
+        <button mat-button (click)="cancelTopicCreation()">Cancelar</button>
+     </div>
+    </div>
+
+    <div [formGroup]="addDetailAndTopicForm" *ngIf="windows.createTopicAndDetail">
+      <h2>Crear Tema</h2>
+      <mat-form-field>
+        <input [(ngModel)]="detail.topic" matInput placeholder="Nombre" name="topic" formControlName="topic" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+          <mat-select [(value)]="detail.expertise" placeholder="Experiencia" name="expertise" formControlName="expertise">
+            <mat-option value="0">★</mat-option>
+            <mat-option value="1">★★</mat-option>
+            <mat-option value="2">★★★</mat-option>
+       </mat-select>             
+      </mat-form-field>
+      <br>  
+      <mat-form-field *ngIf="windows.createTopicAndDetail">
+        <textarea [(ngModel)]="detail.description" matInput placeholder="Descripcion" formControlName="description" name="description"></textarea>
+      </mat-form-field>
+      <br>
+      <p  class="warn-banner" style="color:#9F6000;" *ngIf="addDescription">Adicionalmente ingrese la descripcion para crear el tema</p>  
+      <div class="button-row">
+        <button mat-raised-button [disabled]="addDetailAndTopicForm.invalid"
+                 (click)="addDetailAndTopic()" type="submit"class="btn btn-success">Crear</button>
+        <button mat-button (click)="cancelTopicCreation()" >Cancelar</button>
+     </div>
+    </div>
+</form>
+
+

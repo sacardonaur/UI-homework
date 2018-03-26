@@ -1,0 +1,28 @@
+<form (ngSubmit)="updateDetail()" #topicForm="ngForm">
+    <div [formGroup]="editDetailForm">
+        <section class="mat-typography title">        
+            <h1 align="center">{{detail.topic.name}}</h1>
+        </section>
+        
+        <p>{{greeting}} {{detail.topic.name}}</p>
+        <br>
+
+        <div class="form-content">
+            <mat-form-field>
+                  <mat-select [(value)]="detail.expertise" required placeholder="Experiencia" name="expertise" formControlName="expertise">
+                    <mat-option value="0">★</mat-option>
+                    <mat-option value="1">★★</mat-option>
+                    <mat-option value="2">★★★</mat-option>
+                </mat-select>             
+            </mat-form-field>
+            <br>
+            <div class="button-row">
+                <button mat-raised-button [disabled]="editDetailForm.invalid" type="submit" class="btn btn-success">Update</button>
+                <button mat-button (click)="cancelDialog()">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+

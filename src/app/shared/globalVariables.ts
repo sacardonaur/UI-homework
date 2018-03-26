@@ -1,9 +1,9 @@
 export class GlobalVariables {
-    static apiLocation : string = "https://praxis-integrador-backend.herokuapp.com";
+    static apiLocation : string = "https://praxis-integrador-backend.herokuapp.com/";
     
     //------------------Collaborator---------------//
     static collaborators = "/collaborators";
-    static details = "/details";
+    static details = "/topicsToTeach";
     //------------------Collaborator---------------//
 
     //-------------------Topic---------------------//
@@ -11,6 +11,7 @@ export class GlobalVariables {
     static topics : string  = "/topics";
     //-------------------Topic---------------------//
 
+    static iterator : number[];
     constructor(){}
 }
 

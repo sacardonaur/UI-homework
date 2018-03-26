@@ -8,10 +8,17 @@ import { Topic } from '../shared/topic';
 import { Window } from '../shared/windows';
 
 import { Collaborator } from '../shared/collaborator';
+import { DetailTable } from '../shared/detailTable';
 import { Detail } from '../shared/detail';
 import { DetailFormTemplate } from '../shared/detailFormTemplate';
 
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+
+import { MatDialog } from '@angular/material';
+
+import { AddDetailComponent } from './Dialog/add-detail/add-detail.component';
+import { EditDialogComponent } from './Dialog/edit-dialog/edit-dialog.component';
+import { DeleteDialogComponent } from './Dialog/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-topic',
@@ -33,8 +40,8 @@ export class CollectiveLearningComponent implements OnInit {
 
   expertiseOptions = ["1", "2", "3"];
 
-  displayedColumsCollaborator = ['name', 'description', 'expertise', 'delete'];
-  dataSourceCollaborator: MatTableDataSource<Detail>;
+  displayedColumsCollaborator = ['name', 'description', 'expertise', 'Date of Creation', "link",  'edit',  'delete'];
+  dataSourceCollaborator: MatTableDataSource<DetailTable>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -44,14 +51,15 @@ export class CollectiveLearningComponent implements OnInit {
   collaboratorDemo: Collaborator; //Demo only!!!!
 
 
-  constructor(private service : CollectiveLearningService) {
+  constructor(private service : CollectiveLearningService,
+              private modalDialog: MatDialog) {
     this.topic = new Topic();
     this.detail = new DetailFormTemplate();
     }
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.localTopics);
-    this.dataSourceCollaborator = new MatTableDataSource();
+    this.dataSourceCollaborator = new MatTableDataSource<DetailTable>();
     this.getAllTopics(); 
     this.getAllCollaborators();
     this.windows = new Window();
@@ -61,62 +69,44 @@ export class CollectiveLearningComponent implements OnInit {
   //--------------------------mock Collaborator-------------------------------//
  
   
-  addDetail(){
-    let detailA = new Detail();
-    detailA.topic = new Topic();
-    let cnt = this.searchTopic(this.detail.topic);
-    for(let value of this.collaboratorDemo.topicsToTeach){
-        if(value.topic.name.toLowerCase() == this.detail.topic.toLowerCase()){
-            alert("The topic already exists");
-            this.detail = new DetailFormTemplate();
-            return;
-        }
-    }
-    if(cnt > -1){
-       this.windows.createDetail = false;
-       let aux = this.localTopics[cnt];
-       detailA.topic.name = aux.name;
-       detailA.topic.description = aux.description;
-       detailA.topic.id = aux.id;
-       detailA.expertise = this.detail.expertise;
-       //this.service.deleteTopic(this.searchTopicByName(aux.name)).subscribe(data => this.getAllTopics());
-       this.service.addDetail(this.collaboratorDemo.id, detailA).subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
-       this.detail = new DetailFormTemplate();
-    }else{         
-        alert("The topic does not exist. A new topic will be created\n Please add the description of the new topic");
-        this.windows.showDefaultCreateDetail = false;
-        this.windows.createTopicAndDetail = true;
+  addDetailDialog(){
+    const modalRef = this.modalDialog.open(AddDetailComponent, {
+        width: '235px',
+        data: { localTopics: this.localTopics, detail:new DetailFormTemplate(), collaboratorDemo: this.collaboratorDemo, windows: this.windows }
+    });
+    modalRef.afterClosed().subscribe(result => {
+      if(result === "canceled" || result === undefined){
         return;
-    }
+      }
+      this.windows.showDefaultCreateDetail = true;
+      this.getAllTopics();
+      this.initializeDetails(result);
+    });
   }
-
-
-  deleteDetail(name:string){
-    for(let value of this.collaboratorDemo.topicsToTeach){
-        if(name == value.topic.name){
-            this.service.deleteDetail(this.collaborators[0].id, value.topic.id)
+  
+  
+  
+ deleteDetail(name:string){
+    const modalRef = this.modalDialog.open(DeleteDialogComponent, {
+        width: 'auto',
+    });
+    modalRef.afterClosed().subscribe(result => {
+      if(!result || result === undefined){
+        return;
+      }else{
+        for(let value of this.collaboratorDemo.topicsToTeach){
+            if(name == value.topic.name){
+                this.service.deleteDetail(this.collaboratorDemo.id, value.topic.id)
                     .subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
-            break;
-        }
-    }
+                break;
+            }
+        }     
+      }
+    });
     
 
-  }    
+ }    
  
- addDetailAndTopic(){
-    this.windows.createDetail = false;
-    this.windows.showDefaultCreateDetail = true;
-    let detailA = new Detail();
-    detailA.topic = new Topic();
-    detailA.topic.name = this.detail.topic;
-    detailA.topic.description = this.detail.description;
-    detailA.expertise = this.detail.expertise;
-    this.service.addDetail(this.collaboratorDemo.id, detailA).subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
-    this.windows.createTopicAndDetail = false;
-    this.detail = new DetailFormTemplate();
-  
-  }
-
   searchTopic(name:string){
     var cnt = 0;
     for(let value of this.localTopics){
@@ -129,48 +119,40 @@ export class CollectiveLearningComponent implements OnInit {
   }
 
   showCollaboratorDemo(){
-    this.windows.collaboratorDemo = true;
-    this.windows.topicDemo = false;
     this.resetForms();
   }
 
   updateEditWindow(name:string){
-    this.windows.updateDetail = true;
     this.detail.topic = name;
-  }
-
-  cancelTopicCreation(){
-    this.windows.createDetail = false;
-    this.windows.createTopicAndDetail = false;
-    this.windows.showDefaultCreateDetail = true;
+    this.updateDetail();
   }
 
   resetForms(){
     this.windows.createTopic = false;
-    this.cancelTopicCreation();
 
   }
 
-  createDetailWindow(){
-    this.windows.createDetail = !this.windows.createDetail;
-    this.windows.createTopicAndDetail = false;
-    this.windows.showDefaultCreateDetail = true;
-  }
 
   updateDetail(){
     let cnt = 0;
     for(let value of this.collaboratorDemo.topicsToTeach){
         if(this.detail.topic == value.topic.name){
-            this.collaboratorDemo.topicsToTeach[cnt].expertise = this.detail.expertise;
-            this.service.addDetail(this.collaboratorDemo.id, this.collaboratorDemo.topicsToTeach[cnt])
-                .subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
-            this.windows.updateDetail = false;
-            this.detail = new DetailFormTemplate();
-            break;
-        }
-        cnt = cnt + 1;
-   }
+            const modalRef = this.modalDialog.open(EditDialogComponent, {
+                width: '300px',
+                data: { detail: this.collaboratorDemo.topicsToTeach[cnt], 
+                        collaboratorId: this.collaboratorDemo.id, collaboratorName: this.collaboratorDemo.name }
+        });
+        modalRef.afterClosed().subscribe(result => {
+            if(result === "canceled" || result === undefined){
+                return;
+            }
+            this.initializeDetails(result);
+            });
+        break;
+    }
+    cnt = cnt + 1;
   }
+}
 
   //---------------------------Topic Related Mock----------------------------------//  
 
@@ -180,63 +162,7 @@ export class CollectiveLearningComponent implements OnInit {
     this.windows.topicDemo = true;
     this.resetForms();
   }
-  postTopic(){
-    if(this.topic.name){
-        for(let value of this.localTopics){
-            if(this.topic.name.toLowerCase() == value.name.toLowerCase()){
-                alert("That topic already exists");
-                this.topic = new Topic();
-                return;
-            }
-        }        
-    }else{
-        alert("Name field is required");
-        return;
-    }
-    console.log(this.topic);
-    this.service.createTopic(this.topic).subscribe(data => this.getAllTopics());
-    this.windows.createTopic = false;
-    this.topic = new Topic();
-  }
-
-  deleteTopic(name:string){
-    let cnt = 0;
-    for(let value of this.localTopics){
-        if(name == value.name){
-         this.service.deleteTopic(this.searchTopicByName(name)).subscribe(data => this.getAllTopics());
-         break;
-        }
-        cnt = cnt + 1;
-    }
-    cnt = 0;
-    for(let value of this.collaboratorDemo.topicsToTeach){
-        if(name == value.topic.name){
-            this.service.deleteDetail(this.collaboratorDemo.id, value.topic.id)
-                    .subscribe(data => this.getAllDetails(this.collaboratorDemo.id));
-            break;
-        }
-        cnt = cnt + 1;
-
-    }
-
-  }
-
-
-  updateTopic(){
-    let cnt = 0;
-    for(let value of this.localTopics){
-        if(this.topic.name == value.name){
-            this.topic.id = this.searchTopicByName(this.topic.name); 
-            this.service.update(this.topic).subscribe(data => this.getAllTopics());
-            this.searchDetail(this.topic.name, this.topic.description); 
-            this.windows.updateTopic = false;
-            this.topic = new Topic();
-            break;
-        }
-        cnt = cnt + 1;
-    }
-  }
-
+  
   searchDetail(name:string, description){
     for (let value of this.collaboratorDemo.topicsToTeach){
         if(value.topic.name == name){
@@ -248,15 +174,11 @@ export class CollectiveLearningComponent implements OnInit {
     }
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
+  
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  ngAfterViewInit() {
+    this.dataSourceCollaborator.paginator = this.paginator;
+    this.dataSourceCollaborator.sort = this.sort;
   }
 
   applyFilterC(filterValue: string) {
@@ -306,16 +228,13 @@ export class CollectiveLearningComponent implements OnInit {
 
   fillCollaborators(data: Collaborator[]){
     this.collaborators = { ...data };
-    console.log(this.collaborators);
     for(let value of Object.values(this.collaborators)){
-        console.log(value);
         if(value.name == "Luis"){
-            this.dataSourceCollaborator.data = value.topicsToTeach;
             this.collaboratorDemo = value;
-            this.windows.isColDemoInit = true;
+            this.initializeDetails(value.topicsToTeach);
         }
     }
-  }
+   }
 
   getAllCollaborators(){
     return this.service.getAllCollaborators().subscribe(data => this.fillCollaborators(data));
@@ -326,8 +245,26 @@ export class CollectiveLearningComponent implements OnInit {
   }
 
   initializeDetails(data:Detail[]){
-    this.dataSourceCollaborator.data=data;
     this.collaboratorDemo.topicsToTeach=data;
+    let cnt = 0;
+    let array = [];
+    console.log(data);
+    for(let i = 0; i < data.length; i++){
+        let addedAt = data[i].addedAt.substring(0,10);
+        
+        let expertise = "";
+        if(data[i].expertise === "beginner"){
+            expertise = "★";
+        } else if (data[i].expertise === "expert"){
+            expertise = "★★★";
+        } else {
+            expertise = "★★";
+        }
+        array.push(new DetailTable(data[i], addedAt, expertise));
+
+    }
+    this.dataSourceCollaborator = new MatTableDataSource(array);
+    this.windows.isColDemoInit = true;
   }
 
   //---------------------------Collaborator-----------------------------------//

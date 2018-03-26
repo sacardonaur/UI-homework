@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { CollectiveLearningComponent } from './collectiveLearning/collectiveLearning.component';
 
-
 export const routes: Routes = [
     { path: 'collectiveLearning', component: CollectiveLearningComponent },
     { path: '', pathMatch: 'full', redirectTo: '/collectiveLearning' },

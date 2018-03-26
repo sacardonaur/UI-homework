@@ -1,219 +1,85 @@
-<mat-toolbar color="primary">
-    <button mat-raised-button (click)="showTopicDemo()"  color="primary">TopicDemo</button>
-    <button mat-raised-button (click)="showCollaboratorDemo()"  color="primary">CollaboratorDemo</button>
-</mat-toolbar>
+<br>
+<section *ngIf="windows.isColDemoInit" class="mat-typography title">        
+    <h1>Colaborador: {{this.collaboratorDemo.name}}</h1>
+</section>
+<br>
+<br>
 <div [hidden]="!windows.collaboratorDemo">
-    <div *ngIf="windows.isColDemoInit">
-        <mat-toolbar class="mat-typography">        
-            <h1 align="center">{{this.collaboratorDemo.name}}'s Account</h1>
-        </mat-toolbar>
-        <!--div class="example-header">
-          <mat-form-field>
+    <div class="table-container">
+        <div class="example-header">
+          <mat-form-field [color]="green">
             <input matInput (keyup)="applyFilterC($event.target.value)" placeholder="Search Detail">
           </mat-form-field>
-        </div-->
+        </div>
 
-        <div class="example-container mat-elevation-z8">
+        <div class="example-container mat-elevation-z2 ">
 
           <mat-table [dataSource]="dataSourceCollaborator" matSort>
 
             <!-- ID Column -->
             <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.topic.name}} </mat-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header> <strong>Nombre</strong></mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.topic}} </mat-cell>
             </ng-container>
 
             <!-- Progress Column -->
             <ng-container matColumnDef="description">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.topic.description}} </mat-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header><strong>Descripción</strong></mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="expertise">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Expertise </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.expertise}} </mat-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header><strong>Experiencia</strong></mat-header-cell>
+              <mat-cell *matCellDef="let element">
+               {{element.expertise}} 
+              </mat-cell>
             </ng-container>
+            
+            <ng-container matColumnDef="Date of Creation">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><strong>Fecha de Creación</strong> </mat-header-cell>
+              <mat-cell *matCellDef="let element"><p align="left" >{{element.createdAt}} </p></mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="link">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><strong>Link</strong> </mat-header-cell>
+              <mat-cell  *matCellDef="let element"><a align="center" href=".">Origen</a></mat-cell>
+            </ng-container>
+
 
 
             <ng-container matColumnDef="delete">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
-              <mat-cell *matCellDef="let row">  <button (click)="deleteDetail(row.topic.name)" mat-raised-button color="primary">Delete</button> </mat-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header><strong>Borrar Tema</strong></mat-header-cell>
+              <mat-cell *matCellDef="let element">  
+                <a mat-button class="icon-container black-text" (click)="deleteDetail(element.topic)">
+                    <i class="material-icons edition-icons">delete</i>
+                </a> 
+              </mat-cell>
             </ng-container>
 
-            <!--ng-container matColumnDef="Edit">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Edit </mat-header-cell>
-              <mat-cell *matCellDef="let row">  <button (click)="updateEditWindow(row.topic.name)" mat-raised-button color="primary">Edit</button> </mat-cell>
-            </ng-container-->
+            <ng-container matColumnDef="edit">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><strong>Editar Tema</strong></mat-header-cell>
+              <mat-cell *matCellDef="let element">  
+                <a mat-button class="icon-container black-text" (click)="updateEditWindow(element.topic)"> 
+                    <i class="material-icons edition-icons">edit</i>
+                </a> 
+              </mat-cell>
+            </ng-container>
+
+            
 
             <mat-header-row *matHeaderRowDef="displayedColumsCollaborator"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumsCollaborator;">
             </mat-row>
           </mat-table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
         </div>
         <br>
         <div class="button-row">
-            <button mat-raised-button (click)="createDetailWindow()"  color="primary">Add Topic</button>
+            <button mat-raised-button (click)="addDetailDialog()"  color="#CFD8DC">Agregar Tema</button>
         </div>
 
         <br>
-
-
-        <div [hidden]="!windows.createDetail" class="createDetail-form">
-            <form #detailForm="ngForm">
-
-              <h2>Add Topic</h2>
-              <mat-form-field>
-                <input [(ngModel)]="detail.topic" matInput placeholder="Name" name="topic">
-              </mat-form-field>
-
-              <mat-form-field>
-                  <mat-select [(value)]="detail.expertise" placeholder="Select">
-                    <mat-option value="0">1</mat-option>
-                    <mat-option value="1">2</mat-option>
-                    <mat-option value="2">3</mat-option>
-                </mat-select>             
-              </mat-form-field>
-                
-              <mat-form-field *ngIf="windows.createTopicAndDetail">
-                <textarea [(ngModel)]="detail.description" matInput placeholder="description" name="description"></textarea>
-              </mat-form-field>
-
-              <div class="button-row">
-                <button *ngIf="windows.showDefaultCreateDetail" mat-raised-button  
-                        color="primary" (click)="addDetail()" class="btn btn-success">Create</button>
-                <button *ngIf="windows.createTopicAndDetail" mat-raised-button  
-                        color="primary" (click)="addDetailAndTopic()" type="submit"class="btn btn-success">Add Topic</button>
-                <button mat-raised-button (click)="cancelTopicCreation()" color="primary">Cancel</button>
-             </div>
-
-            </form>
-
-
-         </div>
-
-        <div [hidden]="!windows.updateDetail" class="createTopic-form">
-            <form (ngSubmit)="updateDetail()" #topicForm="ngForm">
-
-              <h2>Edit myTopic</h2>
-
-              <mat-form-field>
-                  <mat-select [(value)]="detail.expertise" placeholder="Select">
-                    <mat-option value="1">1</mat-option>
-                    <mat-option value="2">2</mat-option>
-                    <mat-option value="3">3</mat-option>
-                </mat-select>             
-              </mat-form-field>
-              <div class="button-row">
-                <button mat-raised-button color="primary" type="submit" class="btn btn-success">Update</button>
-                <button mat-raised-button (click)="windows.updateDetail = false"  color="primary">Cancel</button>
-             </div>
-
-            </form>
-
-
-         </div>
-
-
 
     </div>    
-</div>
-
-<div [hidden]="!windows.topicDemo">
-    <div>
-        <mat-toolbar class="mat-typography">        
-            <h1 align="center">Manage Topics</h1>
-        </mat-toolbar>
-        <div class="example-header">
-          <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Topic">
-          </mat-form-field>
-        </div>
-
-        <div class="example-container mat-elevation-z8">
-
-          <mat-table [dataSource]="dataSource" matSort>
-
-            <!-- ID Column -->
-            <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
-            </ng-container>
-
-            <!-- Progress Column -->
-            <ng-container matColumnDef="description">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.description}} </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="delete">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
-              <mat-cell *matCellDef="let row">  <button (click)="deleteTopic(row.name)" mat-raised-button color="primary">Delete</button> </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="Edit">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Edit </mat-header-cell>
-              <mat-cell *matCellDef="let row">  <button (click)="updateTopicWindow(row.name)" mat-raised-button color="primary">Edit</button> </mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;">
-            </mat-row>
-          </mat-table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-        </div>
-        <br>
-        <div class="button-row">
-            <button mat-raised-button (click)="addTopicWindow()"  color="primary">Create Topic</button>
-        </div>
-
-        <br>
-
-
-        <div [hidden]="!windows.createTopic" class="createTopic-form">
-            <form (ngSubmit)="postTopic()" #topicForm="ngForm">
-
-              <h2>Create Topic</h2>
-              <mat-form-field>
-                <input [(ngModel)]="topic.name" matInput placeholder="Name" name="name">
-              </mat-form-field>
-
-              <mat-form-field>
-                <textarea [(ngModel)]="topic.description" matInput placeholder="Description" name="description"></textarea>
-              </mat-form-field>
-
-              <div class="button-row">
-                <button mat-raised-button  color="primary" type="submit" class="btn btn-success">Create</button>
-                <button mat-raised-button (click)="windows.createTopic = false"  color="primary">Cancel</button>
-             </div>
-
-            </form>
-
-
-         </div>
-
-        <div [hidden]="!windows.updateTopic" class="createTopic-form">
-            <form (ngSubmit)="updateTopic()" #topicForm="ngForm">
-
-              <h2>Edit Topic</h2>
-
-              <mat-form-field>
-                <textarea [(ngModel)]="topic.description" matInput placeholder="Description" name="description"></textarea>
-              </mat-form-field>
-
-              <div class="button-row">
-                <button mat-raised-button color="primary" type="submit" class="btn btn-success">Update</button>
-                <button mat-raised-button (click)="windows.updateTopic = false"  color="primary">Cancel</button>
-             </div>
-
-            </form>
-
-
-         </div>
-
-
-
-    </div>
 </div>
 
 
