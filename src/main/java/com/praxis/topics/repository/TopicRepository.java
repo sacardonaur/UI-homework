@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("TopicRepository")
+@Repository
 public interface TopicRepository extends MongoRepository<Topic, String> {
 
     List<Topic> findTopicByStatus(Enum status);

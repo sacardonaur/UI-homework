@@ -10,7 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 
-@Document(collection = "Topic")
+@Document(collection = "topics")
 public class Topic {
     @Id
     private String id;

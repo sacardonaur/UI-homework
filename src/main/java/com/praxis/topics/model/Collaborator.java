@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Document(collection = "Collaborator")
+@Document(collection = "collaborators")
 public class Collaborator {
 
     @Id
@@ -75,5 +75,13 @@ public class Collaborator {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
