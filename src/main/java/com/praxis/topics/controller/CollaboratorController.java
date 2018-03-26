@@ -1,6 +1,5 @@
 package com.praxis.topics.controller;
 
-import com.praxis.topics.exception.EntityNotFoundException;
 import com.praxis.topics.model.Collaborator;
 import com.praxis.topics.model.Detail;
 import com.praxis.topics.model.Topic;
@@ -12,8 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 @CrossOrigin
 @RestController
@@ -61,7 +58,7 @@ public class CollaboratorController {
 
     @PostMapping("/{id}/topicsToTeach")
     public List<Detail> addDetail(@PathVariable("id") String id, @RequestBody  Detail detail) {
-        detail.setCreatedAt(LocalDateTime.now());
+        detail.setAddedAt(LocalDateTime.now());
 
         Topic topic = detail.getTopic();
         Collaborator collaborator = collaboratorService.getCollaboratorById(id);
@@ -132,10 +129,20 @@ public class CollaboratorController {
     @PostMapping("/{id}/topicsToLearn")
     public List<Detail> addTopicToLearn(@PathVariable("id") String id, @RequestBody  Detail detail) {
 
+        detail.setAddedAt(LocalDateTime.now());
+
+        Topic topic = detail.getTopic();
         Collaborator collaborator = collaboratorService.getCollaboratorById(id);
-        List<Detail> topicsToLearn = collaborator.getTopicsToLearn();
-        Topic topic = topicService.getTopicById(detail.getTopic().getId());
-        int nstudents = topic.getStudents();
+        List <Detail> topicsToLearn = collaborator.getTopicsToTeach();
+
+        // If the topic does not exist in the db
+        if(topicService.getTopicById(topic.getId())== null)
+        {
+            //topic.setTeachers(1);
+            topicService.addTopic(topic);
+        }
+
+        // The topic exists in the db
 
         int index = -1;
         for (Detail d : topicsToLearn) {
@@ -146,18 +153,17 @@ public class CollaboratorController {
 
         if (index != -1) {
             topicsToLearn.set(index, detail);
-
         }
 
-        else
-        {
+        else{
             topicsToLearn.add(detail);
-            topic.setStudents(nstudents + 1);
+            int nstudents = topicService.getTopicById(topic.getId()).getStudents();
+            topic.setTeachers(nstudents + 1);
+            topicService.addTopic(topic);
         }
 
-        topicService.addTopic(topic);
         collaborator.setTopicsToLearn(topicsToLearn);
-        return collaborator.getTopicsToLearn();
+        return collaboratorService.updateCollaborator(collaborator).getTopicsToLearn();
     }
 
     @DeleteMapping("/{id}/topicsToLearn/{topicId}")
@@ -181,14 +187,6 @@ public class CollaboratorController {
 
         collaborator.setTopicsToTeach(topicsToLearn);
         return collaboratorService.updateCollaborator(collaborator).getTopicsToLearn();
-
     }
-
-
-
-
-
-
-
 
 }

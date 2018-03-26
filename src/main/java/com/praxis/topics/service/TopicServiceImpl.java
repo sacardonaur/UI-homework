@@ -32,7 +32,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public Topic addTopic(Topic topic) {
 
-        //topic.setCreatedAt(LocalDateTime.now());
+        //topic.setAddedAt(LocalDateTime.now());
         return topicRepository.save(topic);
     }
 

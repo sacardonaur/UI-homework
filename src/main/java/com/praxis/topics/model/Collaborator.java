@@ -18,6 +18,9 @@ public class Collaborator {
     @NotEmpty(message = "The name is required")
     private String name;
 
+    @NotEmpty(message = "The email is required")
+    private String email;
+
     private List<Detail> topicsToTeach;
 
     private List<Detail> topicsToLearn;
@@ -29,8 +32,9 @@ public class Collaborator {
 
     }
 
-    public Collaborator(String name) {
+    public Collaborator(String name, String email) {
         this.name = name;
+        this.email = email;
     }
 
     public String getId() {

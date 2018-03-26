@@ -1,9 +1,9 @@
 package com.praxis.topics.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.praxis.topics.model.enums.Expertise;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -17,8 +17,8 @@ public class Detail {
     @NotEmpty(message = "Expertise cannot be empty")
     private Expertise expertise;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDateTime createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d-M-yyyy H:m:s")
+    private LocalDateTime addedAt;
 
     private URL url;
 
@@ -29,13 +29,13 @@ public class Detail {
     public Detail(Topic topic, Expertise expertise) {
         this.topic = topic;
         this.expertise = expertise;
-        this.createdAt = LocalDateTime.now();
+        this.addedAt = LocalDateTime.now();
     }
 
     public Detail(Topic topic, Expertise expertise, URL url) {
         this.topic = topic;
         this.expertise = expertise;
-        this.createdAt = LocalDateTime.now();
+        this.addedAt = LocalDateTime.now();
         this.url = url;
     }
 
@@ -64,12 +64,12 @@ public class Detail {
         this.expertise = expertise;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getAddedAt() {
+        return addedAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setAddedAt(LocalDateTime addedAt) {
+        this.addedAt = addedAt;
     }
 
 }

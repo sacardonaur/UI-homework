@@ -1,5 +1,6 @@
 package com.praxis.topics.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.praxis.topics.model.enums.Status;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
@@ -28,13 +29,14 @@ public class Topic {
 
     private int students;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d-M-yyyy H:m:s")
     private LocalDateTime createdAt;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d-M-yyyy H:m:s")
     private LocalDateTime openedAt;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d-M-yyyy H:m:s")
     private LocalDateTime closedAt;
 
     public Topic() {

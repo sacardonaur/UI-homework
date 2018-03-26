@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.praxis.topics.model.enums.Expertise;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,17 +29,23 @@ public class DBSeeder implements CommandLineRunner {
         Topic topic1 = new Topic("Java", "Java course");
         Topic topic2 = new Topic("Java for dummies", "Java course: an introduction");
         Topic topic3 = new Topic("Python", "Data Science in Python");
+        topic1.setTeachers(1);
+        topic2.setTeachers(1);
+        topic3.setTeachers(1);
 
         Detail detail1 = new Detail(topic1,Expertise.beginner);
-        Detail detail12 = new Detail(topic2,Expertise.intermediate);
-        Detail detail13 = new Detail(topic3,Expertise.expert);
+        Detail detail2 = new Detail(topic2,Expertise.intermediate);
+        Detail detail3 = new Detail(topic3,Expertise.expert);
+        detail1.setAddedAt(LocalDateTime.now());
+        detail2.setAddedAt(LocalDateTime.now());
+        detail2.setAddedAt(LocalDateTime.now());
 
-        List<Detail> topicsToTeach = Arrays.asList(detail1, detail12,detail13);
+        List<Detail> topicsToTeach = Arrays.asList(detail1, detail2,detail3);
         List<Detail> topicsToTeach2 = Arrays.asList();
         List<Detail> topicsToLearn = Arrays.asList();
 
-        Collaborator collaborator1 = new Collaborator("Luis");
-        Collaborator collaborator2 = new Collaborator("Jefferson");
+        Collaborator collaborator1 = new Collaborator("Luis", "lualopezpe@unal.edu.co");
+        Collaborator collaborator2 = new Collaborator("Jefferson", "jftapias@unal.edu.co");
         collaborator1.setTopicsToTeach(topicsToTeach);
         collaborator2.setTopicsToTeach(topicsToTeach2);
         collaborator1.setTopicsToLearn(topicsToLearn);
