@@ -1,6 +1,7 @@
 import { Detail } from './detail';
-export interface Collaborator {
+export class Collaborator {
     id:string;
     name: string;
     topicsToTeach: Detail[];
+    constructor(){}
 }

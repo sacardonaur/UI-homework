@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Inject} from '@angular/core';
 
-import { CollectiveLearningService } from '../collectiveLearning.service';
+import { TopicsToTeachService } from '../topicsToTeach.service';
 
 import { TopicRequest } from '../shared/topicRequest';
 import { Topic } from '../shared/topic';
@@ -16,16 +16,16 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 import { MatDialog } from '@angular/material';
 
-import { AddDetailComponent } from './Dialog/add-detail/add-detail.component';
+import { AddDialogComponent } from './Dialog/add-dialog/add-dialog.component';
 import { EditDialogComponent } from './Dialog/edit-dialog/edit-dialog.component';
 import { DeleteDialogComponent } from './Dialog/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-topic',
-  templateUrl: './collectiveLearning.component.html',
-  styleUrls: ['./collectiveLearning.component.css']
+  templateUrl: './topicsToTeach.component.html',
+  styleUrls: ['./topicsToTeach.component.css']
 })
-export class CollectiveLearningComponent implements OnInit {
+export class TopicsToTeachComponent implements OnInit {
 
   tRequest: TopicRequest[];
   localTopics = [];
@@ -51,7 +51,7 @@ export class CollectiveLearningComponent implements OnInit {
   collaboratorDemo: Collaborator; //Demo only!!!!
 
 
-  constructor(private service : CollectiveLearningService,
+  constructor(private service : TopicsToTeachService,
               private modalDialog: MatDialog) {
     this.topic = new Topic();
     this.detail = new DetailFormTemplate();
@@ -70,7 +70,7 @@ export class CollectiveLearningComponent implements OnInit {
  
   
   addDetailDialog(){
-    const modalRef = this.modalDialog.open(AddDetailComponent, {
+    const modalRef = this.modalDialog.open(AddDialogComponent, {
         width: '235px',
         data: { localTopics: this.localTopics, detail:new DetailFormTemplate(), collaboratorDemo: this.collaboratorDemo, windows: this.windows }
     });
@@ -249,7 +249,6 @@ export class CollectiveLearningComponent implements OnInit {
     this.collaboratorDemo.topicsToTeach=data;
     let cnt = 0;
     let array = [];
-    console.log(data);
     for(let i = 0; i < data.length; i++){
         let addedAt = "";
         if(data[i].addedAt){

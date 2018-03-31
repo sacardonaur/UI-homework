@@ -1,6 +1,6 @@
 import { Component,Inject, OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { CollectiveLearningService } from '../../../collectiveLearning.service';
+import { TopicsToTeachService } from '../../../topicsToTeach.service';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators, FormControl, FormArray } from '@angular/forms';
 import { Detail } from '../../../shared/detail';
 import { Dialogs } from '../../../shared/dialogs'
@@ -18,7 +18,7 @@ export class EditDialogComponent implements OnInit {
   greeting: string;
 
   constructor(public dialog: MatDialog, 
-              private service : CollectiveLearningService, 
+              private service : TopicsToTeachService, 
               @Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<EditDialogComponent>
              ) {

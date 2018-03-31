@@ -1,7 +1,7 @@
 import { Component,Inject, OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import { CollectiveLearningService } from '../../../collectiveLearning.service';
+import { TopicsToTeachService } from '../../../topicsToTeach.service';
 
 import { TopicRequest } from '../../../shared/topicRequest';
 import { Topic } from '../../../shared/topic';
@@ -20,11 +20,11 @@ import { Detail } from '../../../shared/detail';
 import { DetailFormTemplate } from '../../../shared/detailFormTemplate';
 
 @Component({
-  selector: 'app-add-detail',
-  templateUrl: './add-detail.component.html',
-  styleUrls: ['./add-detail.component.css']
+  selector: 'app-add-dialog',
+  templateUrl: './add-dialog.component.html',
+  styleUrls: ['./add-dialog.component.css']
 })
-export class AddDetailComponent implements OnInit {
+export class AddDialogComponent implements OnInit {
   localTopics = [];
   detail: DetailFormTemplate;
   windows : Window;
@@ -42,9 +42,9 @@ export class AddDetailComponent implements OnInit {
   }
 
   constructor(public dialog: MatDialog, 
-              private service : CollectiveLearningService, 
+              private service : TopicsToTeachService, 
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private dialogRef: MatDialogRef<AddDetailComponent>
+              private dialogRef: MatDialogRef<AddDialogComponent>
              ) {
         this.topics = [""];
         this.localTopics = data.localTopics;

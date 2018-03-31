@@ -1,6 +1,6 @@
 import { Component,Inject, OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { CollectiveLearningService } from '../../../collectiveLearning.service';
+import { TopicsToTeachService } from '../../../topicsToTeach.service';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators, FormControl, FormArray } from '@angular/forms';
 import { Detail } from '../../../shared/detail';
 import { Dialogs } from '../../../shared/dialogs'

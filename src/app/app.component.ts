@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Administrator app';
+  title = 'Praxis';
   tabId = 1;
 
   changeTab(id:number){

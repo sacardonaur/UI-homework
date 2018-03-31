@@ -1,13 +1,13 @@
 import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CollectiveLearningComponent } from './collectiveLearning/collectiveLearning.component';
+import { TopicsToTeachComponent } from './topicsToTeach/topicsToTeach.component';
 
 export const routes: Routes = [
-    { path: 'collectiveLearning', component: CollectiveLearningComponent },
-    { path: '', pathMatch: 'full', redirectTo: '/collectiveLearning' },
-    { path: 'collectiveLearning', pathMatch: 'full', redirectTo: '/collectiveLearning' },
-    { path: '**', pathMatch: 'full', redirectTo: '/collectiveLearning' },
+    { path: 'topics-to-teach', component: TopicsToTeachComponent },
+    { path: '', pathMatch: 'full', redirectTo: '/topics-to-teach' },
+    { path: 'topics-to-teach', pathMatch: 'full', redirectTo: '/topics-to-teach' },
+    { path: '**', pathMatch: 'full', redirectTo: '/topics-to-teach' },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

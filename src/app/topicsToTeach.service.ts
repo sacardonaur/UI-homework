@@ -16,7 +16,7 @@ import { Collaborator } from './shared/collaborator';
 import { Detail } from './shared/detail';
 
 @Injectable()
-export class CollectiveLearningService {
+export class TopicsToTeachService {
   static httpOptions = {
                          headers: new HttpHeaders({
                             'Content-Type':  'application/json'
@@ -30,30 +30,29 @@ export class CollectiveLearningService {
   static collaboratorURL = GlobalVariables.apiLocation + GlobalVariables.collaborators;
 
   getAllCollaborators(){
-    return this.http.get<Collaborator[]>(CollectiveLearningService.collaboratorURL);
+    return this.http.get<Collaborator[]>(TopicsToTeachService.collaboratorURL);
   }
 
   getCollaborator(id:string){
-    return this.http.get<Collaborator>(CollectiveLearningService.collaboratorURL + "/" + id);    
+    return this.http.get<Collaborator>(TopicsToTeachService.collaboratorURL + "/" + id);    
   }
 
   getAllDetails(collaboratorId:string){
-    return this.http.get<Detail[]>(CollectiveLearningService.collaboratorURL + "/" + 
+    return this.http.get<Detail[]>(TopicsToTeachService.collaboratorURL + "/" + 
                                     collaboratorId + "/" + GlobalVariables.details);
   }
 
   addDetail(collaboratorId:string, detail:Detail){
-    let url = CollectiveLearningService.collaboratorURL + "/" + collaboratorId  + 
+    let url = TopicsToTeachService.collaboratorURL + "/" + collaboratorId  + 
                 GlobalVariables.details;
-    
-    return this.http.post<Detail>(url, JSON.stringify(detail), CollectiveLearningService.httpOptions);
+    return this.http.post<Detail[]>(url, JSON.stringify(detail), TopicsToTeachService.httpOptions);
 
   }
 
   deleteDetail(collaboratorId:string, topic:string){
-    let url = CollectiveLearningService.collaboratorURL + "/" + collaboratorId  + 
+    let url = TopicsToTeachService.collaboratorURL + "/" + collaboratorId  + 
             GlobalVariables.details + "/" + topic;
-    return this.http.delete(url, CollectiveLearningService.httpOptions);
+    return this.http.delete<Detail[]>(url, TopicsToTeachService.httpOptions);
 
   }
 
@@ -72,18 +71,18 @@ export class CollectiveLearningService {
 
   deleteTopic(name :string){
     name = GlobalVariables.apiLocation + GlobalVariables.topics + "/" + name;
-    return this.http.delete(name, CollectiveLearningService.httpOptions);
+    return this.http.delete(name, TopicsToTeachService.httpOptions);
   }
 
   createTopic(topic: Topic){
      return this.http.post<Topic>(GlobalVariables.apiLocation + GlobalVariables.topics, 
-                                    JSON.stringify(topic), CollectiveLearningService.httpOptions);
+                                    JSON.stringify(topic), TopicsToTeachService.httpOptions);
 
   }
 
   update(topic: Topic){
      return this.http.put<Topic>(GlobalVariables.apiLocation + GlobalVariables.topics, 
-                                    JSON.stringify(topic), CollectiveLearningService.httpOptions);
+                                    JSON.stringify(topic), TopicsToTeachService.httpOptions);
 
   }
 
