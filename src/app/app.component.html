@@ -1,0 +1,7 @@
+<nav class="nav">
+    <ul>
+      <li [class.active]="checkSelected(1)" (click)="changeTab(1)"><a mat-button routerLink="collectiveLearning">Temas para Enseñar</a></li>
+    </ul>
+</nav>
+<router-outlet></router-outlet>
+
